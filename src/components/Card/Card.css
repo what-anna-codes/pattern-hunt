@@ -1,0 +1,17 @@
+.disabled {
+  filter: grayscale(100%) brightness(60%);
+  pointer-events: none;
+  cursor: disabled;
+}
+
+.active {
+  background: var(--active);
+}
+
+.accepted {
+  background: var(--accepted);
+}
+
+.rejected {
+  background: var(--rejected);
+}

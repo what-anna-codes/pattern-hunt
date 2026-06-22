@@ -1,0 +1,74 @@
+.Symbol_wrapper {
+  aspect-ratio: 480 / 640;
+  height: 60%;
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Symbol_wrapper.count-2 {
+  margin: 0 2px;
+
+  @media screen and (max-width: 900px) {
+    margin: 0 3px;
+  }
+}
+
+.Symbol_wrapper .diamond {
+  margin: 0 2px;
+
+  @media (orientation: landscape) and (max-width: 1200px) {
+    margin: 0 1px;
+  }
+  @media screen and (max-width: 600px) {
+    margin: 0 1px;
+  }
+}
+
+.Symbol_wrapper.count-3 {
+  margin: 0 1px;
+
+  @media screen and (max-width: 600px) {
+    margin: 0 1px;
+  }
+}
+
+.Symbol_wrapper.count-2 .diamond {
+  margin: 0 2px;
+}
+
+.Symbol {
+  height: 80%;
+  overflow: visible;
+  margin: 0;
+  padding: 0 3px;
+  stroke: var(--main);
+  stroke-width: 10px;
+  pointer-events: none;
+}
+
+.full {
+  fill: var(--light);
+}
+
+.blank {
+  fill: transparent;
+  stroke-width: 14px;
+
+  @media screen and (max-width: 600px) {
+    stroke-width: 16px;
+  }
+}
+
+.gradient.red {
+  fill: url(#pattern-red);
+}
+
+.gradient.green {
+  fill: url(#pattern-green);
+}
+
+.gradient.purple {
+  fill: url(#pattern-purple);
+}

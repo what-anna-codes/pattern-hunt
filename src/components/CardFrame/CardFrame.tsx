@@ -15,10 +15,10 @@ export default function CardFrame({ children }: Props) {
         initial={{ opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{
-          duration: 0.4,
+          duration: 0.3,
           ease: "circOut",
         }}
-        className="CardFrame__inner bg-zinc-50/80">
+        className="CardFrame__inner bg-zinc-100/60 hover:bg-zinc-50/90">
         {children}
       </motion.div>
     </div>

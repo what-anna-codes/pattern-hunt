@@ -33,3 +33,18 @@
     max-height: 80%;
   }
 }
+
+.purple {
+  --light: rgba(94, 43, 138, 0.3);
+  --main: rgb(94, 43, 138);
+}
+
+.red {
+  --light: rgba(255, 0, 0, 0.3);
+  --main: rgb(255, 0, 0);
+}
+
+.green {
+  --light: rgba(55, 138, 43, 0.3);
+  --main: rgb(55, 138, 43);
+}
