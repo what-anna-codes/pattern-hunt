@@ -13,8 +13,8 @@ function Card({
   const { count } = getFeatures(id);
   if (!id) return null;
   return (
-    <div className={`Card ${status} ${classNames}`} onClick={handleClick}>
-      <CardFrame>
+    <div className={`Card ${classNames}`} onClick={handleClick}>
+      <CardFrame status={status}>
         {Array.from({ length: count }).map((_, i) => (
           <CardSymbol key={`symbol-${id}-${i}`} id={id} />
         ))}

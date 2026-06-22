@@ -6,6 +6,7 @@
 
 .active {
   background: var(--active);
+  filter: saturate(110%);
 }
 
 .accepted {

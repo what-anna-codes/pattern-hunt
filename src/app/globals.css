@@ -8,6 +8,9 @@
     var(--font-momo-trust), ui-monospace, "Segoe UI Mono", "Ubuntu Mono",
     "Roboto Mono", Menlo, Monaco, Consolas, monospace;
   --shadow-card: 2px 2px 2px #00000021, rgba(5, 0, 0, 0.3) 0px 26px 40px;
+  --active: #fbedb7;
+  --accepted: #b8e6b1;
+  --rejected: #ffa3a6;
 }
 
 .bottom-bar,
