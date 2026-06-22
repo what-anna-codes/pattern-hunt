@@ -1,0 +1,1 @@
+export const sampleCardIds = ['red-squiggle-blank-1', 'purple-diamond-shaded-3', 'red-stadium-blank-2', 'red-squiggle-filled-1', 'purple-stadium-shaded-2', 'purple-squiggle-filled-1', 'green-squiggle-blank-2', 'green-stadium-blank-1', 'green-diamond-shaded-3', 'purple-stadium-blank-2', 'purple-squiggle-filled-3', 'red-diamond-shaded-3'];

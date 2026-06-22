@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans:
+    var(--font-open-sans), ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-accent:
+    var(--font-momo-trust), ui-monospace, "Segoe UI Mono", "Ubuntu Mono",
+    "Roboto Mono", Menlo, Monaco, Consolas, monospace;
+  --shadow-card: 2px 2px 2px #00000021, rgba(5, 0, 0, 0.3) 0px 26px 40px;
+}
+
+.bottom-bar,
+.top-bar {
+  @apply h-[10%] w-full px-4 flex items-center text-2xl font-semibold;
+}
+
+.bottom-bar {
+  @apply justify-center;
+}
+
+.top-bar {
+  @apply justify-end gap-4;
+}
+
+.grid-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @apply w-full h-[80%] border-2;
+
+  @media (min-width: 601px) and (orientation: landscape) {
+    max-height: 80%;
+  }
+}
