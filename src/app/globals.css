@@ -15,7 +15,7 @@
 
 .bottom-bar,
 .top-bar {
-  @apply h-[10%] w-full px-4 flex items-center text-2xl font-semibold;
+  @apply h-[10%] w-full px-4 flex items-center text-2xl;
 }
 
 .bottom-bar {
@@ -30,8 +30,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  @apply w-full h-[80%] border-2;
-
+  @apply w-full h-[80%];
+  font-size: 2.4rem;
+  font-family: var(--font-momo-trust);
   @media (min-width: 601px) and (orientation: landscape) {
     max-height: 80%;
   }
@@ -50,4 +51,17 @@
 .green {
   --light: rgba(55, 138, 43, 0.3);
   --main: rgb(55, 138, 43);
+}
+
+button,
+a {
+  letter-spacing: 0.1rem;
+  @apply text-zinc-600;
+
+  &:hover {
+    @apply text-zinc-800;
+  }
+  &:active {
+    @apply text-zinc-900;
+  }
 }

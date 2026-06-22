@@ -25,9 +25,11 @@
   transition: all 0.3s ease;
   opacity: 1;
   z-index: 50000;
+  background-color: var(--light);
 
   &:hover {
     filter: saturate(110%);
+    color: var(--main);
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   }
 }

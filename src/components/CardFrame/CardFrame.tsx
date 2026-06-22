@@ -7,10 +7,11 @@ import { CardStatuses } from "@/src/ts/types";
 
 interface Props {
   children: ReactNode;
+  classNames?: string;
   status?: CardStatuses;
 }
 
-export default function CardFrame({ children, status = CardStatuses.Default }: Props) {
+export default function CardFrame({ children, status = CardStatuses.Default, classNames = "" }: Props) {
   return (
     <div className="CardFrame">
       <motion.div
@@ -20,7 +21,7 @@ export default function CardFrame({ children, status = CardStatuses.Default }: P
           duration: 0.3,
           ease: "circOut",
         }}
-        className={`CardFrame__inner bg-zinc-100/60 hover:bg-zinc-50/90 ${status}`}>
+        className={`CardFrame__inner ${status} ${classNames}`}>
         {children}
       </motion.div>
     </div>

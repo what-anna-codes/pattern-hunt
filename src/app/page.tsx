@@ -1,10 +1,9 @@
 "use client";
-import Link from "next/link";
-import CardFrame from "../components/CardFrame/CardFrame";
 import Grid from "../components/Grid/Grid";
 import { sampleCardIds } from "../utils/deck";
 import Card from "../components/Card/Card";
-import { CardStatuses } from "../ts/types";
+import { CardColors, CardStatuses } from "../ts/types";
+import { CardButton } from "../components/CardButton/CardButton";
 
 export default function Home() {
   return (
@@ -12,10 +11,13 @@ export default function Home() {
       <div className="top-bar" />
       <div className="grid-wrapper">
         <Grid>
-          <CardFrame>
-            <Link href="/game">play</Link>
-          </CardFrame>
-          {sampleCardIds.slice(0, 11).map((id) => (
+          <CardButton href="/game" label="play" color={CardColors.Red} />
+          <CardButton
+            href="/results"
+            label="results"
+            color={CardColors.Purple}
+          />
+          {sampleCardIds.slice(0, 10).map((id) => (
             <Card
               id={id}
               status={CardStatuses.Disabled}

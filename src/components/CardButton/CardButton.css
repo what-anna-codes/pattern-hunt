@@ -1,0 +1,11 @@
+.CardButton {
+  background-color: var(--light);
+  border: 1px solid var(--main);
+  filter: grayscale(0);
+  color: var(--main);
+  &:hover {
+    background: var(--main);
+    color: #fff;
+    filter: brightness(90%) saturate(90%);
+  }
+}
