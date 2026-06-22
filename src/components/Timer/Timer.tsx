@@ -1,0 +1,49 @@
+import { useEffect, Dispatch, SetStateAction } from "react";
+import { useTimer } from "use-timer";
+
+import TimeResult from "../TimeResult/TimeResult";
+import {
+  CardColors,
+  GameStatuses,
+  GameStatus as GameStatusType,
+} from "../../ts/types";
+import "./Timer.css";
+
+interface Props {
+  gameStatus: GameStatusType;
+  liftDuration: Dispatch<SetStateAction<number | null>>;
+}
+
+function Timer({ gameStatus, liftDuration }: Props) {
+  const { time, start, pause, status } = useTimer({
+    initialTime: 0,
+  });
+
+  useEffect(() => {
+    start();
+  }, []);
+
+  useEffect(() => {
+    liftDuration(time);
+  }, [time]);
+
+  useEffect(() => {
+    if (gameStatus === GameStatuses.Over) {
+      pause();
+    }
+  }, [gameStatus]);
+
+  return (
+    <button
+      className={`Timer ${CardColors.Purple}`}
+      disabled={status !== "RUNNING" && time !== 0}
+      onClick={() => {
+        pause();
+        liftDuration(null);
+      }}>
+      <TimeResult duration={time} />
+    </button>
+  );
+}
+
+export default Timer;

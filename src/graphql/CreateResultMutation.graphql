@@ -1,0 +1,8 @@
+mutation createResult($data: ResultCreateInput!) {
+  createResult(data: $data) {
+    id
+    username
+    seconds
+    createdAt
+  }
+}

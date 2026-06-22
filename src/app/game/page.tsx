@@ -8,6 +8,9 @@ import { getVariants } from "@/src/app/game/GameUtils";
 import Card from "@/src/components/Card/Card";
 import Grid from "@/src/components/Grid/Grid";
 import { motion } from "motion/react";
+import GameOver from "@/src/components/SaveResultForm/GameOver";
+import Timer from "@/src/components/Timer/Timer";
+import HomeIconLink from "../HomeIconLink/HomeIconLink";
 
 export default function GamePage() {
   const { Accepted, Active, Default, Rejected } = CardStatuses;
@@ -117,10 +120,8 @@ export default function GamePage() {
   return (
     <main className="h-screen w-screen max-w-screen overflow-hidden bg-zinc-200 font-sans">
       <div className="top-bar">
-        <Link href="/">
-          <span>&#8962;</span>
-        </Link>
-        <span>{duration}</span>
+        <HomeIconLink />
+        <Timer gameStatus={gameStatus} liftDuration={setDuration} />
       </div>
       <div className="grid-wrapper">
         <Grid>
@@ -142,6 +143,7 @@ export default function GamePage() {
             );
           })}
         </Grid>
+        {gameStatus === GameStatuses.Over && <GameOver duration={duration} />}
       </div>
       <button className="bottom-bar hint-button" onClick={showHint}>
         hint
