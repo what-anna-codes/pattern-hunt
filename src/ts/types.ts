@@ -27,6 +27,11 @@ export enum CardStatuses {
     Disabled = 'disabled'
 }
 
+export enum GameStatuses {
+  Ready = "isReady",
+  On = "isOn",
+  Over = "isOver",
+}
 
 type Color = CardColors.Green | CardColors.Red | CardColors.Purple;
 type Shape = CardShapes.Diamond | CardShapes.Squiggle | CardShapes.Stadium;
