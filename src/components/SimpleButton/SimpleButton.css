@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+.simple-button {
+  height: 3rem;
+  aspect-ratio: 4 / 1;
+  min-width: 12rem;
+  min-height: 3rem;
+  padding: 0.5rem 1.5rem;
+  background-color: var(--light);
+  font-size: 1.2rem;
+  cursor: pointer;
+  font-family: var(--font-accent);
+  font-weight: 700;
+  @apply rounded-md text-zinc-100;
+
+  opacity: 0.8;
+  &:hover {
+    @apply shadow-xl text-zinc-50;
+    background-color: var(--main);
+
+    opacity: 0.9;
+    filter: saturate(150%) brightness(110%);
+  }
+  &:active {
+    background-color: var(--main);
+    filter: saturate(130%);
+    opacity: 1;
+    @apply shadow-md text-zinc-100;
+  }
+}

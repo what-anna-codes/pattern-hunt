@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+.SaveResultBox {
+  position: absolute;
+  top: 20%;
+  height: 60%;
+  left: 22%;
+  width: 56%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15%;
+  background-color: rgba(255, 255, 255, 0.6);
+  box-shadow: rgba(255, 255, 255, 0.7) 0 0 120px 80px;
+  z-index: 1;
+
+  @media screen and (max-width: 900px) {
+    left: 10%;
+    right: 0;
+    aspect-ratio: 1 / 1.12;
+    width: max(80vw, 80%);
+    z-index: 1000;
+    padding: 0.2rem 0;
+  }
+}
+
+.ResultForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--purple_main);
+  letter-spacing: 0.2rem;
+  background-color: transparent;
+  z-index: 1;
+  @media screen and (max-width: 600px) {
+    margin: 0;
+    gap: 0.8rem;
+  }
+}
+
+.SaveResultBox h1 {
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 0.1rem;
+  @apply leading-[4] pb-6;
+  font-size: 1.2rem !important;
+  @media (max-width: 600px) {
+    font-size: 1.1rem !important;
+  }
+}
+
+.ResultForm input {
+  width: 100%;
+  opacity: 0.8;
+  text-align: center;
+  margin: 1rem auto 0;
+  color: var(--purple_main);
+  letter-spacing: 0.1rem;
+  border: none;
+  border-bottom: 3px solid var(--purple_light);
+  font-size: 1.3rem;
+  font-family: "Momo Trust Display";
+  padding: 0.5rem 1rem;
+  border-radius: 16px 16px 0 0;
+  background-color: transparent;
+  @media screen and (max-width: 600px) {
+    letter-spacing: 0.06rem;
+    margin-bottom: 0.8rem;
+    font-size: 0.9rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  /* border-radius: 16px; */
+  &:focus {
+    outline: none;
+    border: none;
+    opacity: 1;
+    background-color: transparent;
+
+    color: var(--purple_main);
+    border-bottom: 3px solid var(--purple_light);
+  }
+}
+
+.input_username::placeholder {
+  font-weight: 300;
+  font-size: 1rem;
+}
+
+.submit-button {
+  position: relative;
+  margin-top: 3rem;
+
+  &:disabled {
+    @apply text-zinc-400 bg-zinc-200 border-2 border-zinc-200 hover:shadow-md pointer-events-none;
+  }
+}
+
+.SaveResultBox .TimeResult {
+  font-weight: 900;
+  position: relative;
+  &::after {
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  }
+}
