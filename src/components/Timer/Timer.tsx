@@ -12,9 +12,10 @@ import "./Timer.css";
 interface Props {
   gameStatus: GameStatusType;
   liftDuration: Dispatch<SetStateAction<number | null>>;
+  classNames?: string;
 }
 
-function Timer({ gameStatus, liftDuration }: Props) {
+function Timer({ gameStatus, liftDuration, classNames }: Props) {
   const { time, start, pause, status } = useTimer({
     initialTime: 0,
   });
@@ -35,7 +36,7 @@ function Timer({ gameStatus, liftDuration }: Props) {
 
   return (
     <button
-      className={`Timer ${CardColors.Purple}`}
+      className={`Timer ${CardColors.Purple} ${classNames}`}
       disabled={status !== "RUNNING" && time !== 0}
       onClick={() => {
         pause();

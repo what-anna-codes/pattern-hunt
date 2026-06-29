@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { Result } from "../__generated__/graphql";
 
 export enum CardColors {
     Green = 'green',
@@ -24,12 +25,14 @@ export enum CardStatuses {
     Active = 'active',
     Accepted = 'accepted',
     Rejected = 'rejected',
-    Disabled = 'disabled'
+    Disabled = 'disabled',
+    Coloured = 'coloured'
 }
 
 export enum GameStatuses {
   Ready = "isReady",
   On = "isOn",
+  Ending = "isEnding",
   Over = "isOver",
 }
 
@@ -38,8 +41,9 @@ type Shape = CardShapes.Diamond | CardShapes.Squiggle | CardShapes.Stadium;
 type Fill = CardFills.Blank | CardFills.Full | CardFills.Gradient;
 type Count = 1 | 2 | 3;
 type Status = CardStatuses.Default | CardStatuses.Accepted | CardStatuses.Active | CardStatuses.Rejected | CardStatuses.Disabled;
-
+type GameStatus = GameStatuses
 type FeatureNames = 'color' | 'shape' | 'fill' | 'count';
+type FullResult = Pick<Result, 'id' | 'username' | 'seconds' | 'createdAt'>;
 
 type Features = {
     color: Array<Color>,
@@ -54,6 +58,7 @@ type ICard = {
     children?: ReactNode;
     handleClick?: (e: any) => void;
     classNames?: string
+    animateInit?: boolean
 }
 
-export type { Color, Shape, Features, FeatureNames, Fill, Count, Status, ICard };
+export type { Color, Shape, Features, FeatureNames, Fill, FullResult, Count, Status, GameStatus, ICard };
