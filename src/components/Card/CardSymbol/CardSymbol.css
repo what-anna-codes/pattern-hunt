@@ -1,4 +1,4 @@
-.Symbol_wrapper {
+.CardSymbol_wrapper {
   aspect-ratio: 480 / 640;
   height: 60%;
   width: auto;
@@ -7,38 +7,33 @@
   align-items: center;
 }
 
-.Symbol_wrapper.count-2 {
-  margin: 0 2px;
-
-  @media screen and (max-width: 900px) {
-    margin: 0 3px;
-  }
-}
-
-.Symbol_wrapper .diamond {
-  margin: 0 2px;
-
-  @media (orientation: landscape) and (max-width: 1200px) {
-    margin: 0 1px;
-  }
-  @media screen and (max-width: 600px) {
-    margin: 0 1px;
-  }
-}
-
-.Symbol_wrapper.count-3 {
+.CardSymbol_wrapper .diamond {
   margin: 0 1px;
 
-  @media screen and (max-width: 600px) {
-    margin: 0 1px;
+  @media (max-width: 800px) {
+    margin: 0 2px;
   }
 }
 
-.Symbol_wrapper.count-2 .diamond {
-  margin: 0 2px;
+.rect-purple,
+.rect-red,
+.rect-green {
+  opacity: 0.75;
 }
 
-.Symbol {
+.rect-purple {
+  fill: var(--purple_main);
+}
+
+.rect-green {
+  fill: var(--green_main);
+}
+
+.rect-red {
+  fill: var(--red_main);
+}
+
+.CardSymbol {
   height: 80%;
   overflow: visible;
   margin: 0;
@@ -46,19 +41,29 @@
   stroke: var(--main);
   stroke-width: 10px;
   pointer-events: none;
+  @media (max-width: 500px) {
+    height: 85%;
+  }
 }
 
 .full {
   fill: var(--light);
+  stroke: var(--main);
+  stroke-width: 14px;
 }
 
 .blank {
   fill: transparent;
-  stroke-width: 14px;
-
+  stroke-width: 16px;
+  stroke: var(--main);
   @media screen and (max-width: 600px) {
-    stroke-width: 16px;
+    stroke-width: 18px;
   }
+}
+
+.gradient {
+  stroke: var(--main);
+  stroke-width: 14px;
 }
 
 .gradient.red {

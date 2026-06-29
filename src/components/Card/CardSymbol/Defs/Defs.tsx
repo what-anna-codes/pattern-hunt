@@ -1,3 +1,5 @@
+import "../CardSymbol.css";
+
 function Defs() {
   return (
     <defs>
@@ -18,7 +20,7 @@ function Defs() {
           height="40"
           x="15"
           y="0"
-          fill="red"
+          className="rect-red"
           strokeWidth="0"></rect>
         <rect
           width="15"
@@ -36,21 +38,21 @@ function Defs() {
         <rect
           width="15"
           height="40"
-          x="0"
+          x="20"
           y="0"
           fill="transparent"
           strokeWidth="0"></rect>
         <rect
-          width="10"
+          width="15"
           height="40"
-          x="15"
+          x="20"
           y="0"
-          fill="green"
+          className="rect-green"
           strokeWidth="0"></rect>
         <rect
           width="15"
           height="40"
-          x="25"
+          x="20"
           y="0"
           fill="transparent"
           strokeWidth="0"></rect>
@@ -61,18 +63,18 @@ function Defs() {
         height="40"
         patternUnits="userSpaceOnUse">
         <rect
-          width="15"
+          width="20"
           height="40"
           x="0"
           y="0"
           fill="transparent"
           strokeWidth="0"></rect>
         <rect
-          width="10"
+          width="15"
           height="40"
-          x="15"
+          x="30"
           y="0"
-          fill="purple"
+          className="rect-purple"
           strokeWidth="0"></rect>
         <rect
           width="15"

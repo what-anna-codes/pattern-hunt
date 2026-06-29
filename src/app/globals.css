@@ -8,14 +8,42 @@
     var(--font-momo-trust), ui-monospace, "Segoe UI Mono", "Ubuntu Mono",
     "Roboto Mono", Menlo, Monaco, Consolas, monospace;
   --shadow-card: 2px 2px 2px #00000021, rgba(5, 0, 0, 0.3) 0px 26px 40px;
-  --active: #fbedb7;
-  --accepted: #b8e6b1;
-  --rejected: #ffa3a6;
+
+  --active: hsl(283, 20%, 85%);
+  --accepted: hsl(104, 39%, 80%);
+  --rejected: hsl(16, 87%, 82%);
+  --purple_main: hsl(283, 20%, 48%);
+  --purple_light: hsl(283, 20%, 72%);
+  --green_light: hsl(104, 39%, 70%);
+  --green_main: hsl(104, 39%, 40%);
+  --red_main: hsl(12, 87%, 55%);
+  --red_light: hsl(16, 87%, 75%);
+}
+
+.purple {
+  --light: var(--purple_light);
+  --main: var(--purple_main);
+}
+
+.red {
+  --light: var(--red_light);
+  --main: var(--red_main);
+}
+
+.green {
+  --light: var(--green_light);
+  --main: var(--green_main);
+}
+
+main {
+  display: flex;
+  background: linear-gradient(150deg, #eaeaea, #fff6f5);
+  @apply flex flex-col justify-between items-center w-screen h-screen max-w-screen overflow-hidden font-sans;
 }
 
 .bottom-bar,
 .top-bar {
-  @apply h-[10%] w-full px-4 flex items-center text-2xl;
+  @apply h-[10%] w-full px-4 flex items-center text-2xl z-10;
 }
 
 .bottom-bar {
@@ -30,38 +58,21 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  @apply w-full h-[80%];
-  font-size: 2.4rem;
-  font-family: var(--font-momo-trust);
+  aspect-ratio: 1 / 0.89;
+  width: 100%;
+  max-width: 100vw;
+  height: 89%;
+  max-height: min(80%, 89vw);
+  flex-grow: 1;
+  z-index: 1;
+
+  font-family: var(--font-accent);
   @media (min-width: 601px) and (orientation: landscape) {
-    max-height: 80%;
-  }
-}
-
-.purple {
-  --light: rgba(94, 43, 138, 0.3);
-  --main: rgb(94, 43, 138);
-}
-
-.red {
-  --light: rgba(255, 0, 0, 0.3);
-  --main: rgb(255, 0, 0);
-}
-
-.green {
-  --light: rgba(55, 138, 43, 0.3);
-  --main: rgb(55, 138, 43);
-}
-
-button,
-a {
-  letter-spacing: 0.1rem;
-  @apply text-zinc-600;
-
-  &:hover {
-    @apply text-zinc-800;
-  }
-  &:active {
-    @apply text-zinc-900;
+    width: 100vw;
+    height: 50vw;
+    max-height: 80vh;
+    max-width: min(100vw, calc(80vh * 2));
+    aspect-ratio: 2 / 1;
+    font-size: 1.3rem;
   }
 }

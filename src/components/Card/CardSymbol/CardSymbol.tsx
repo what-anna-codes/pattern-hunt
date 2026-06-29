@@ -7,7 +7,7 @@ import { CSSProperties } from "react";
 interface Props {
   id: string;
   style?: CSSProperties;
-};
+}
 
 function CardSymbol({ id, style }: Props) {
   const { color, shape, fill, count } = getFeatures(id);
@@ -27,10 +27,10 @@ function CardSymbol({ id, style }: Props) {
   }
 
   return (
-    <div className={`Symbol_wrapper count-${count}`}>
+    <div className={`CardSymbol_wrapper count-${count}`}>
       <svg
         style={style}
-        className={`Symbol ${color} ${fill} ${shape} count-${count}`}
+        className={`CardSymbol ${color} ${fill} ${shape} count-${count}`}
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 480 640">
         {fill == CardFills.Gradient ? <Defs /> : null}
@@ -38,7 +38,6 @@ function CardSymbol({ id, style }: Props) {
       </svg>
     </div>
   );
-
 }
 
 export default CardSymbol;
