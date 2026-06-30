@@ -10,21 +10,39 @@
   font-size: 1.2rem;
   cursor: pointer;
   font-family: var(--font-accent);
-  font-weight: 700;
+  transition: all 0.8s;
+  letter-spacing: 0.14rem;
   @apply rounded-md text-zinc-100;
 
-  opacity: 0.8;
+
   &:hover {
     @apply shadow-xl text-zinc-50;
     background-color: var(--main);
 
-    opacity: 0.9;
-    filter: saturate(150%) brightness(110%);
+    filter: saturate(130%) brightness(110%);
   }
   &:active {
     background-color: var(--main);
-    filter: saturate(130%);
-    opacity: 1;
+    filter: saturate(150%);
+     
     @apply shadow-md text-zinc-100;
   }
+
+  &:disabled,
+  &.disabled {
+    @apply shadow-md text-zinc-50 bg-zinc-300 cursor-not-allowed;
+  }
+}
+
+.simple-button__loader-cnt {
+  position: relative;
+  height: 100%;
+  aspect-ratio: 3 / 1;
+  width: auto;
+  overflow: hidden;
+  opacity: 0.4;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

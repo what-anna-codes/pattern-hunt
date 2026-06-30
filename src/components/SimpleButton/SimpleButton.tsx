@@ -1,6 +1,7 @@
 import { CardColors } from "@/src/ts/types";
-import { ButtonHTMLAttributes, ReactNode } from "react";
+import { ButtonHTMLAttributes, ReactNode, useState } from "react";
 import "./SimpleButton.css";
+import { BeatLoader } from "react-spinners";
 
 interface Props {
   type?: ButtonHTMLAttributes<HTMLButtonElement>["type"];
@@ -19,13 +20,29 @@ function SimpleButton({
   isDisabled = false,
   label,
 }: Props) {
+  const [isProcessing, setProcessing] = useState(false);
+
+  const handleClick = (e: any) => {
+    setProcessing(true);
+    onClick(e);
+    setTimeout(() => {
+      setProcessing(false);
+    }, 700);
+  };
+
   return (
     <button
       type={type}
       className={`simple-button ${color} ${classNames}`}
-      disabled={isDisabled}
-      onClick={onClick}>
-      {label}
+      disabled={isProcessing || isDisabled}
+      onClick={handleClick}>
+      {isProcessing ? (
+        <div className="simple-button__loader-cnt">
+          <BeatLoader speedMultiplier={0.4} />
+        </div>
+      ) : (
+        label
+      )}
     </button>
   );
 }
