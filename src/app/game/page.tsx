@@ -1,6 +1,5 @@
 "use client";
-import Link from "next/link";
-import { Status, GameStatuses, CardStatuses } from "@/src/ts/types";
+import { Status, GameStatuses, CardStatuses, CardColors } from "@/src/ts/types";
 import { generateDeck, checkAll, check } from "@/src/utils/deck";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { useState, useEffect } from "react";
@@ -8,9 +7,13 @@ import { getVariants } from "@/src/app/game/GameUtils";
 import Card from "@/src/components/Card/Card";
 import Grid from "@/src/components/Grid/Grid";
 import { motion } from "motion/react";
-import GameOver from "@/src/components/SaveResultForm/GameOver";
+import { useSearchParams } from "next/navigation";
+import SaveResultForm from "@/src/components/SaveResultForm/SaveResultForm";
 import Timer from "@/src/components/Timer/Timer";
-import HomeIconLink from "../HomeIconLink/HomeIconLink";
+import HomeIconLink from "@/src/components/HomeIconLink/HomeIconLink";
+import SimpleButton from "@/src/components/SimpleButton/SimpleButton";
+import { CardFlip } from "@/src/components/CardFlip/CardFlip";
+import { containerFadeDelay, containerFadeDuration } from "@/src/utils/motion";
 
 export default function GamePage() {
   const { Accepted, Active, Default, Rejected } = CardStatuses;
@@ -23,10 +26,13 @@ export default function GamePage() {
   const [gameStatus, setGameStatus] = useState(GameStatuses.Ready);
   const [possibleSet, setPossibleSet] = useState<string[] | boolean>(false);
   const size = useWindowSize();
+  const params = useSearchParams();
 
   useEffect(() => {
-    let newDeck = generateDeck();
-    setDeck(newDeck.slice(12, 18));
+    const seedParam = params?.get("seed");
+    const seedNum = seedParam ? Number(seedParam) : undefined;
+    let newDeck = generateDeck(seedNum);
+    setDeck(newDeck.slice(12));
     setVisibleCards(newDeck.slice(0, 12));
     setGameStatus(GameStatuses.On);
   }, []);
@@ -117,37 +123,59 @@ export default function GamePage() {
     }
   }, [visibleCards, possibleSet]);
 
+  const isOver = gameStatus === GameStatuses.Over;
   return (
-    <main className="h-screen w-screen max-w-screen overflow-hidden bg-zinc-200 font-sans">
-      <div className="top-bar">
+    <main className="main game-page">
+      <motion.div
+        layout
+        initial={{ opacity: 0.5 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0, duration: 0.4 }}
+        className="top-bar">
+        {!isOver && (
+          <Timer gameStatus={gameStatus} liftDuration={setDuration} />
+        )}
         <HomeIconLink />
-        <Timer gameStatus={gameStatus} liftDuration={setDuration} />
-      </div>
-      <div className="grid-wrapper">
-        <Grid>
+      </motion.div>
+      <motion.div
+        className="grid-wrapper"
+        initial={{ opacity: 0.6 }}
+        animate={{ opacity: 1 }}
+        transition={{
+          duration: containerFadeDuration,
+          delay: containerFadeDelay,
+        }}>
+        <Grid isExpanded={visibleCards?.length > 12}>
           {visibleCards?.map((id: string, i: number) => {
             const variants = getVariants(i, size?.width);
             return (
-              <motion.div
-                key={`motion-card-${id}`}
-                className="CardWrapper"
-                variants={variants}
-                exit={gameStatus}
-                animate={gameStatus}>
-                <Card
-                  handleClick={() => handleCardClick(id)}
-                  status={activeCards.includes(id) ? currentStatus : Default}
-                  id={id}
-                />
-              </motion.div>
+              <CardFlip key={`game-page_card_card-flip-${id}`}>
+                <motion.div
+                  className="CardWrapper"
+                  variants={variants}
+                  animate={gameStatus}>
+                  <Card
+                    handleClick={() => handleCardClick(id)}
+                    status={activeCards.includes(id) ? currentStatus : Default}
+                    id={id}
+                  />
+                </motion.div>
+              </CardFlip>
             );
           })}
+          {isOver && <SaveResultForm duration={duration} />}
         </Grid>
-        {gameStatus === GameStatuses.Over && <GameOver duration={duration} />}
+      </motion.div>
+      <div className="bottom-bar">
+        {!isOver && (
+          <SimpleButton
+            color={CardColors.Green}
+            classNames="hint-button fixed bottom-3"
+            onClick={showHint}
+            label="hint"
+          />
+        )}
       </div>
-      <button className="bottom-bar hint-button" onClick={showHint}>
-        hint
-      </button>
     </main>
   );
 }

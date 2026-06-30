@@ -1,5 +1,5 @@
 "use client";
-import "./SaveResultForm.css";
+
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useMutation } from "@apollo/client";
@@ -11,6 +11,7 @@ import {
 import { useRouter } from "next/navigation";
 import SimpleButton from "../SimpleButton/SimpleButton";
 import { CardColors } from "@/src/ts/types";
+import "./SaveResultForm.css";
 
 interface Props {
   duration?: number | null;
@@ -66,7 +67,7 @@ function SaveResultForm({ classNames, duration }: Props) {
         initial={{ y: 500, opacity: 0.5 }}
         animate={{ y: 0, opacity: 1 }}
         className="SaveResultBox">
-        <h1>
+        <h1 className="SaveResultBox__heading">
           {duration ? (
             <>
               <div className="flex font-thin items-center text-3xl">
