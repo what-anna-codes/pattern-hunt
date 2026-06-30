@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+.game-page .top-bar .home-icon-link {
+  border: 1px solid rgba(120, 116, 116, 0.8);
+  &:hover {
+    @apply shadow-xl;
+    border-color: rgba(255, 255, 255, 0.44);
+  }
+  &:active {
+    box-shadow: -2px -2px 4px #fff;
+  }
+}

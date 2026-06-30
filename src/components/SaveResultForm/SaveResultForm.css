@@ -1,123 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Nata+Sans:wght@100..900&display=swap');
 @import "tailwindcss";
 
 .SaveResultBox {
   position: absolute;
-  top: 20%;
-  height: 60%;
-  left: 22%;
-  width: 56%;
+  height: 100%;
+  width: 100%;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 15%;
+  border-radius: 80px;
   background-color: rgba(255, 255, 255, 0.6);
   box-shadow: rgba(255, 255, 255, 0.7) 0 0 120px 80px;
   z-index: 1;
-
-  @media (orientation: portrait) and (max-width: 900px) {
-    left: 10vw;
-    top: -18%;
-
-    width: 80vw;
-    z-index: 1000;
-    padding: 0.2rem 0;
-    transform: scale(0.8);
+    font-family: "Nata Sans";
+  color: var(--purple_main);
+  @media (orientation: portrait) and (max-width: 800px) {
+    justify-content: flex-start;
 
     & .simple-button {
-      margin: -1.75rem 0 0;
-      width: 80vw;
+      margin: 0 auto;
+      max-height: 2.4rem;
+      font-size: 16px;
+      width: min(80vw, 18rem);
     }
   }
 }
 
-.ResultForm {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: var(--purple_main);
-  letter-spacing: 0.2rem;
-  background-color: transparent;
-  z-index: 1;
-  @media screen and (max-width: 600px) {
-    margin: 0;
-    gap: 0.8rem;
+.SaveResultBox__summary {
+  margin-bottom: 5rem;
+    font-family: "Nata Sans";
+  @media (orientation: landscape) and (min-width: 800px) {
+    width: 70%;
+    padding: 2rem 3rem 0;
+    margin: 0 auto;
   }
 }
 
-.SaveResultBox__heading {
-  text-transform: uppercase;
-  text-align: center;
-  letter-spacing: 0.1rem;
-  @apply pb-2;
-  font-size: 1.1rem;
-
-  @media (orientation: portrait) and (max-width: 900px) {
-    font-size: 1rem;
+.ResultForm {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: flex-end;
+  align-items: center;
+  color: var(--purple_dark);
+  background-color: transparent;
+  margin: auto;
+  position: relative;
+  @media (orientation: landscape) and (min-width: 901px) {
+    width: 80%;
   }
 }
 
 .ResultForm input {
-  width: 100%;
-  opacity: 0.8;
+  width: min(80vw, 22rem);
+  transition: all 0.5s;
+  opacity: 0.9;
+  line-height: 1.6;
   text-align: center;
-  margin: 1rem auto 0;
+  margin: 0 auto 1.5rem;
   color: var(--purple_main);
-  letter-spacing: 0.1rem;
+  letter-spacing: 0.08rem;
   border: none;
-  border-bottom: 3px solid var(--purple_light);
-  font-size: 1.3rem;
-  font-family: "Momo Trust Display";
-  padding: 0.5rem 1rem;
-  border-radius: 16px 16px 0 0;
+  border-top: 2px solid var(--purple_light);
+  border-bottom: 2px solid var(--purple_light);
+  font-size: 1.4rem;
+font-weight: 800;
+  padding: 0.25rem 0.5rem;
+  font-family: var(--font-accent);
   background-color: transparent;
-  @media (orientation: portrait) and (max-width: 900px) {
-    letter-spacing: 0.06rem;
-    margin-bottom: 0.8rem;
-    font-size: 1.1rem;
-    padding: 0.25rem 0.5rem;
-  }
-
+  background-color: var(--purple_extralight);
   &:focus {
     outline: none;
     border: none;
     opacity: 1;
-    background-color: transparent;
-    color: var(--purple_main);
-    border-bottom: 3px solid var(--purple_light);
+    color: var(--purple_dark);
+    background-color: var(--purple_light);
+    border-top: 2px solid var(--purple_main);
+    border-bottom: 2px solid var(--purple_main);
+    @apply brightness-110;
+  }
+
+  @media (max-width: 800px) {
+    position: absolute;
+    bottom: 2.5rem;
+    width: 100vw;
   }
 }
 
 .SaveResultBox input::placeholder {
-  font-weight: 300;
-  letter-spacing: 0.04rem;
-
-  font-size: 1rem;
+  letter-spacing: 0.06rem;
+  font-size: 1.05rem;
   @media (orientation: portrait) and (max-width: 900px) {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
+      letter-spacing: 0.02rem;
   }
 }
 
 .submit-button {
-  position: relative;
-  margin-top: 3rem;
-
+  font-size: 18px;
   &:disabled {
     @apply text-zinc-400 bg-zinc-200 border-2 border-zinc-200 hover:shadow-md pointer-events-none;
-  }
-}
-
-.SaveResultBox .TimeResult {
-  font-weight: 900;
-  position: relative;
-  &::after {
-    content: "";
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    position: absolute;
   }
 }

@@ -33,7 +33,7 @@ function SimpleButton({
   return (
     <button
       type={type}
-      className={`simple-button ${color} ${classNames}`}
+      className={`simple-button flex items-center justify-center rounded-md h-9 lg:h-12 font-accent text-zinc-100  lowercase text-xl ${color} ${classNames}`}
       disabled={isProcessing || isDisabled}
       onClick={handleClick}>
       {isProcessing ? (

@@ -1,5 +1,6 @@
 "use client";
 import { Status, GameStatuses, CardStatuses, CardColors } from "@/src/ts/types";
+import "./GamePage.css";
 import { generateDeck, checkAll, check } from "@/src/utils/deck";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { useState, useEffect } from "react";
@@ -25,6 +26,7 @@ export default function GamePage() {
   const [duration, setDuration] = useState<number | null>(0);
   const [gameStatus, setGameStatus] = useState(GameStatuses.Ready);
   const [possibleSet, setPossibleSet] = useState<string[] | boolean>(false);
+  const [hintCount, setHintCount] = useState<number>(0);
   const size = useWindowSize();
   const params = useSearchParams();
 
@@ -32,7 +34,7 @@ export default function GamePage() {
     const seedParam = params?.get("seed");
     const seedNum = seedParam ? Number(seedParam) : undefined;
     let newDeck = generateDeck(seedNum);
-    setDeck(newDeck.slice(12));
+    setDeck(newDeck.slice(12, 18));
     setVisibleCards(newDeck.slice(0, 12));
     setGameStatus(GameStatuses.On);
   }, []);
@@ -53,6 +55,7 @@ export default function GamePage() {
 
   const showHint = () => {
     Array.isArray(possibleSet) && setActiveCards(possibleSet);
+    setHintCount((prev) => prev + 1);
   };
 
   const replaceCards = (cards: Array<string>) => {
@@ -88,6 +91,8 @@ export default function GamePage() {
       (card) => !cards.includes(card),
     );
     setVisibleCards(newVisibleCards);
+    setPossibleSet(false);
+    setActiveCards([]);
   };
 
   const handleCardClick = (id: string) => {
@@ -112,7 +117,11 @@ export default function GamePage() {
   }, [currentStatus, deck, visibleCards]);
 
   useEffect(() => {
-    if (!possibleSet && visibleCards.length > 3) {
+    if (
+      !possibleSet &&
+      visibleCards.length > 3 &&
+      gameStatus !== GameStatuses.Over
+    ) {
       const setsPresent = checkAll(visibleCards);
       if (!setsPresent) {
         addCards();
@@ -121,11 +130,11 @@ export default function GamePage() {
         !possibleSet && setPossibleSet(setsPresent);
       }
     }
-  }, [visibleCards, possibleSet]);
+  }, [visibleCards, possibleSet, gameStatus]);
 
   const isOver = gameStatus === GameStatuses.Over;
   return (
-    <main className="main game-page">
+    <main className="game-page">
       <motion.div
         layout
         initial={{ opacity: 0.5 }}
@@ -153,17 +162,34 @@ export default function GamePage() {
                 <motion.div
                   className="CardWrapper"
                   variants={variants}
+                  transition={{
+                    duration: 1.5,
+                    stiffness: 80,
+                    damping: 16,
+                    mass: 0.85,
+                    delay: 1.5 - i * 0.08,
+                    type: "tween",
+                    ease: "circOut",
+                  }}
                   animate={gameStatus}>
                   <Card
                     handleClick={() => handleCardClick(id)}
-                    status={activeCards.includes(id) ? currentStatus : Default}
+                    status={
+                      isOver
+                        ? CardStatuses.Disabled
+                        : activeCards.includes(id)
+                          ? currentStatus
+                          : Default
+                    }
                     id={id}
                   />
                 </motion.div>
               </CardFlip>
             );
           })}
-          {isOver && <SaveResultForm duration={duration} />}
+          {isOver && (
+            <SaveResultForm hintCount={hintCount} duration={duration} />
+          )}
         </Grid>
       </motion.div>
       <div className="bottom-bar">

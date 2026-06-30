@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { useMutation } from "@apollo/client";
 import TimeResult from "../TimeResult/TimeResult";
 import {
@@ -12,15 +12,21 @@ import { useRouter } from "next/navigation";
 import SimpleButton from "../SimpleButton/SimpleButton";
 import { CardColors } from "@/src/ts/types";
 import "./SaveResultForm.css";
+import { PENALTY } from "@/src/utils/constants";
 
 interface Props {
+  hintCount: number;
   duration?: number | null;
   classNames?: string;
 }
 
-function SaveResultForm({ classNames, duration }: Props) {
+function SaveResultForm({ classNames, duration, hintCount }: Props) {
   const [newResult, setNewResult] = useState(null);
   const router = useRouter();
+  const [totalTime, setTotalTime] = useState(0);
+  useEffect(() => {
+    duration && setTotalTime(duration + hintCount * PENALTY);
+  }, [duration, hintCount]);
 
   const [createRecord] = useMutation(CreateResultDocument, {
     update(cache, { data }) {
@@ -45,7 +51,7 @@ function SaveResultForm({ classNames, duration }: Props) {
         variables: {
           data: {
             username,
-            seconds: duration ?? 500,
+            seconds: totalTime ?? 500,
           },
         },
         onCompleted: async (data: any) => {
@@ -59,37 +65,51 @@ function SaveResultForm({ classNames, duration }: Props) {
         awaitRefetchQueries: true,
       });
   };
+
   return (
-    <AnimatePresence>
-      <motion.div
-        layout
-        transition={{ duration: 0.5 }}
-        initial={{ y: 500, opacity: 0.5 }}
-        animate={{ y: 0, opacity: 1 }}
-        className="SaveResultBox">
-        <h1 className="SaveResultBox__heading">
+    <motion.div
+      layout
+      transition={{ duration: 0.6, delay: 0.4, type: "tween" }}
+      initial={{ y: 100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      className={`SaveResultBox ${classNames}`}>
+      <div className="h-fit flex flex-col items-center w-full">
+        <div className="SaveResultBox__summary flex flex-col lg:px-4 uppercase text-center tracking-[0.02rem] leading-7 items-center text-[17px] lg:text-[20px]">
           {duration ? (
             <>
-              <div className="flex font-thin items-center text-3xl">
-                Final&nbsp;time:&nbsp;
-                <strong>
-                  <TimeResult
-                    duration={duration}
-                    classNames="purple font-bold"
-                  />
-                </strong>
+              <div className="mt-2" style={{ fontWeight: 400 }}>
+                your result:
+              </div>
+              {/* <span className="flex" style={{fontWeight: 300}}>
+                  &nbsp;(+&nbsp;{hintCount * PENALTY}&nbsp;penalty&nbsp;seconds)
+                </span>
+              </div> */}
+              <div
+                className="flex my-4 mb-8 py-6 text-shadow-md text-[80px] font-bold tracking-wider"
+                style={{ fontWeight: 700 }}>
+                <TimeResult duration={totalTime} />
+              </div>
+              <div className="flex" style={{ fontWeight: 600 }}>
+                time played:&nbsp;
+                <TimeResult duration={duration} />
+              </div>
+
+              <div style={{ fontWeight: 500 }}>
+                hints&nbsp;needed:&nbsp;{hintCount}
+              </div>
+              <div className="mb-5" style={{ fontWeight: 300 }}>
+                penalty:&nbsp;00:{hintCount * PENALTY}
               </div>
             </>
           ) : (
-            "You found them all!"
+            <p>You found them all!</p>
           )}
-        </h1>
-
+        </div>
         {duration && (
-          <form className="ResultForm">
+          <form className="ResultForm" style={{ fontFamily: "Nata Sans" }}>
             <input
               name="username"
-              className="placeholder:font-thin"
+              className="lowercase"
               placeholder="Enter name to save your result"
               onChange={(e) => setUsername(e.target.value)}
             />
@@ -103,8 +123,8 @@ function SaveResultForm({ classNames, duration }: Props) {
             />
           </form>
         )}
-      </motion.div>
-    </AnimatePresence>
+      </div>
+    </motion.div>
   );
 }
 
