@@ -1,7 +1,7 @@
 "use client";
 
 import "./Results.css";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import ResultsGrid from "./ResultsGrid/ResultsGrid";
 import { useSearchParams } from "next/navigation";
 import { motion } from "motion/react";
@@ -19,6 +19,14 @@ import ContainerPage from "@/src/components/CardFlip/ContainerPage";
 import { FullResult } from "@/src/ts/types";
 
 export default function ResultsPage() {
+  return (
+    <Suspense fallback={null}>
+      <ResultsPageContent />
+    </Suspense>
+  );
+}
+
+function ResultsPageContent() {
   const params = useSearchParams();
   const activeResultId = params.get("id");
   const { data, loading } = useQuery<GetResultsQuery>(GetResultsDocument);

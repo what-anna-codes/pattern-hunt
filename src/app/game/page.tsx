@@ -1,9 +1,8 @@
 "use client";
 import { GameStatuses, CardStatuses, Colors } from "@/src/ts/types";
-import "./GamePage.css";
 import { generateDeck, checkAll, check } from "@/src/utils/deck";
 import { useWindowSize } from "@uidotdev/usehooks";
-import { useState, useEffect } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { getVariants } from "@/src/app/game/GameUtils";
 import Card from "@/src/components/Card/Card";
 import Grid from "@/src/components/Grid/Grid";
@@ -17,10 +16,19 @@ import { CardFlip } from "@/src/components/CardFlip/CardFlip";
 import { containerFadeDelay, containerFadeDuration } from "@/src/utils/motion";
 import { useFlipTransition } from "@/src/hooks/useFlipTransition";
 import ContainerPage from "@/src/components/CardFlip/ContainerPage";
+import "./GamePage.css";
 
 export default function GamePage() {
+  return (
+    <Suspense fallback={null}>
+      <GamePageContent />
+    </Suspense>
+  );
+}
+
+function GamePageContent() {
   const { Accepted, Active, Default, Rejected } = CardStatuses;
- const { isNavigating, handleNavigate } = useFlipTransition();
+  const { isNavigating, handleNavigate } = useFlipTransition();
   const [deck, setDeck] = useState<Array<string>>([]);
   const [activeCards, setActiveCards] = useState<Array<string>>([]);
   const [visibleCards, setVisibleCards] = useState<Array<string>>([]);
@@ -161,7 +169,7 @@ export default function GamePage() {
             const variants = getVariants(i, size?.width);
             return (
               <CardFlip
-                key={`game-page_card_fcard-flip-${id}-${i}`}
+                key={`game-page_card_card-flip-${id}-${i}`}
                 isExiting={isNavigating}>
                 <motion.div
                   className="CardWrapper"
