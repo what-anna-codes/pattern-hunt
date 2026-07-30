@@ -1673,6 +1673,7 @@ export type Result = Entity & Node & {
   createdBy?: Maybe<User>;
   /** Get the document in other stages */
   documentInStages: Array<Result>;
+  hintCount?: Maybe<Scalars['Int']['output']>;
   /** List of Result versions */
   history: Array<Version>;
   /** The unique identifier */
@@ -1683,8 +1684,10 @@ export type Result = Entity & Node & {
   publishedBy?: Maybe<User>;
   scheduledIn: Array<ScheduledOperation>;
   seconds?: Maybe<Scalars['Int']['output']>;
+  seed?: Maybe<Scalars['Int']['output']>;
   /** System stage field */
   stage: Stage;
+  timestamp?: Maybe<Scalars['String']['output']>;
   /** The time the document was updated */
   updatedAt: Scalars['DateTime']['output'];
   /** User that last updated this document */
@@ -1755,7 +1758,10 @@ export type ResultConnection = {
 
 export type ResultCreateInput = {
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
+  hintCount?: InputMaybe<Scalars['Int']['input']>;
   seconds?: InputMaybe<Scalars['Int']['input']>;
+  seed?: InputMaybe<Scalars['Int']['input']>;
+  timestamp?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
@@ -1812,6 +1818,21 @@ export type ResultManyWhereInput = {
   documentInStages_every?: InputMaybe<ResultWhereStageInput>;
   documentInStages_none?: InputMaybe<ResultWhereStageInput>;
   documentInStages_some?: InputMaybe<ResultWhereStageInput>;
+  hintCount?: InputMaybe<Scalars['Int']['input']>;
+  /** All values greater than the given value. */
+  hintCount_gt?: InputMaybe<Scalars['Int']['input']>;
+  /** All values greater than or equal the given value. */
+  hintCount_gte?: InputMaybe<Scalars['Int']['input']>;
+  /** All values that are contained in given list. */
+  hintCount_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  /** All values less than the given value. */
+  hintCount_lt?: InputMaybe<Scalars['Int']['input']>;
+  /** All values less than or equal the given value. */
+  hintCount_lte?: InputMaybe<Scalars['Int']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  hintCount_not?: InputMaybe<Scalars['Int']['input']>;
+  /** All values that are not contained in given list. */
+  hintCount_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
   id?: InputMaybe<Scalars['ID']['input']>;
   /** All values containing the given string. */
   id_contains?: InputMaybe<Scalars['ID']['input']>;
@@ -1865,6 +1886,40 @@ export type ResultManyWhereInput = {
   seconds_not?: InputMaybe<Scalars['Int']['input']>;
   /** All values that are not contained in given list. */
   seconds_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  seed?: InputMaybe<Scalars['Int']['input']>;
+  /** All values greater than the given value. */
+  seed_gt?: InputMaybe<Scalars['Int']['input']>;
+  /** All values greater than or equal the given value. */
+  seed_gte?: InputMaybe<Scalars['Int']['input']>;
+  /** All values that are contained in given list. */
+  seed_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  /** All values less than the given value. */
+  seed_lt?: InputMaybe<Scalars['Int']['input']>;
+  /** All values less than or equal the given value. */
+  seed_lte?: InputMaybe<Scalars['Int']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  seed_not?: InputMaybe<Scalars['Int']['input']>;
+  /** All values that are not contained in given list. */
+  seed_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  timestamp?: InputMaybe<Scalars['String']['input']>;
+  /** All values containing the given string. */
+  timestamp_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values ending with the given string. */
+  timestamp_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are contained in given list. */
+  timestamp_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  timestamp_not?: InputMaybe<Scalars['String']['input']>;
+  /** All values not containing the given string. */
+  timestamp_not_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values not ending with the given string */
+  timestamp_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are not contained in given list. */
+  timestamp_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** All values not starting with the given string. */
+  timestamp_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values starting with the given string. */
+  timestamp_starts_with?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   updatedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -1905,12 +1960,18 @@ export type ResultManyWhereInput = {
 export enum ResultOrderByInput {
   CreatedAtAsc = 'createdAt_ASC',
   CreatedAtDesc = 'createdAt_DESC',
+  HintCountAsc = 'hintCount_ASC',
+  HintCountDesc = 'hintCount_DESC',
   IdAsc = 'id_ASC',
   IdDesc = 'id_DESC',
   PublishedAtAsc = 'publishedAt_ASC',
   PublishedAtDesc = 'publishedAt_DESC',
   SecondsAsc = 'seconds_ASC',
   SecondsDesc = 'seconds_DESC',
+  SeedAsc = 'seed_ASC',
+  SeedDesc = 'seed_DESC',
+  TimestampAsc = 'timestamp_ASC',
+  TimestampDesc = 'timestamp_DESC',
   UpdatedAtAsc = 'updatedAt_ASC',
   UpdatedAtDesc = 'updatedAt_DESC',
   UsernameAsc = 'username_ASC',
@@ -1918,7 +1979,10 @@ export enum ResultOrderByInput {
 }
 
 export type ResultUpdateInput = {
+  hintCount?: InputMaybe<Scalars['Int']['input']>;
   seconds?: InputMaybe<Scalars['Int']['input']>;
+  seed?: InputMaybe<Scalars['Int']['input']>;
+  timestamp?: InputMaybe<Scalars['String']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -1940,7 +2004,10 @@ export type ResultUpdateManyInlineInput = {
 };
 
 export type ResultUpdateManyInput = {
+  hintCount?: InputMaybe<Scalars['Int']['input']>;
   seconds?: InputMaybe<Scalars['Int']['input']>;
+  seed?: InputMaybe<Scalars['Int']['input']>;
+  timestamp?: InputMaybe<Scalars['String']['input']>;
   username?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -2022,6 +2089,21 @@ export type ResultWhereInput = {
   documentInStages_every?: InputMaybe<ResultWhereStageInput>;
   documentInStages_none?: InputMaybe<ResultWhereStageInput>;
   documentInStages_some?: InputMaybe<ResultWhereStageInput>;
+  hintCount?: InputMaybe<Scalars['Int']['input']>;
+  /** All values greater than the given value. */
+  hintCount_gt?: InputMaybe<Scalars['Int']['input']>;
+  /** All values greater than or equal the given value. */
+  hintCount_gte?: InputMaybe<Scalars['Int']['input']>;
+  /** All values that are contained in given list. */
+  hintCount_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  /** All values less than the given value. */
+  hintCount_lt?: InputMaybe<Scalars['Int']['input']>;
+  /** All values less than or equal the given value. */
+  hintCount_lte?: InputMaybe<Scalars['Int']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  hintCount_not?: InputMaybe<Scalars['Int']['input']>;
+  /** All values that are not contained in given list. */
+  hintCount_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
   id?: InputMaybe<Scalars['ID']['input']>;
   /** All values containing the given string. */
   id_contains?: InputMaybe<Scalars['ID']['input']>;
@@ -2075,6 +2157,40 @@ export type ResultWhereInput = {
   seconds_not?: InputMaybe<Scalars['Int']['input']>;
   /** All values that are not contained in given list. */
   seconds_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  seed?: InputMaybe<Scalars['Int']['input']>;
+  /** All values greater than the given value. */
+  seed_gt?: InputMaybe<Scalars['Int']['input']>;
+  /** All values greater than or equal the given value. */
+  seed_gte?: InputMaybe<Scalars['Int']['input']>;
+  /** All values that are contained in given list. */
+  seed_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  /** All values less than the given value. */
+  seed_lt?: InputMaybe<Scalars['Int']['input']>;
+  /** All values less than or equal the given value. */
+  seed_lte?: InputMaybe<Scalars['Int']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  seed_not?: InputMaybe<Scalars['Int']['input']>;
+  /** All values that are not contained in given list. */
+  seed_not_in?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  timestamp?: InputMaybe<Scalars['String']['input']>;
+  /** All values containing the given string. */
+  timestamp_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values ending with the given string. */
+  timestamp_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are contained in given list. */
+  timestamp_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** Any other value that exists and is not equal to the given value. */
+  timestamp_not?: InputMaybe<Scalars['String']['input']>;
+  /** All values not containing the given string. */
+  timestamp_not_contains?: InputMaybe<Scalars['String']['input']>;
+  /** All values not ending with the given string */
+  timestamp_not_ends_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values that are not contained in given list. */
+  timestamp_not_in?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  /** All values not starting with the given string. */
+  timestamp_not_starts_with?: InputMaybe<Scalars['String']['input']>;
+  /** All values starting with the given string. */
+  timestamp_starts_with?: InputMaybe<Scalars['String']['input']>;
   updatedAt?: InputMaybe<Scalars['DateTime']['input']>;
   /** All values greater than the given value. */
   updatedAt_gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -3678,35 +3794,21 @@ export type CreateResultMutationVariables = Exact<{
 }>;
 
 
-export type CreateResultMutation = { __typename?: 'Mutation', createResult?: { __typename?: 'Result', id: string, username?: string | null, seconds?: number | null, createdAt: any } | null };
+export type CreateResultMutation = { __typename?: 'Mutation', createResult?: { __typename?: 'Result', id: string, username?: string | null, seconds?: number | null, seed?: number | null, hintCount?: number | null, timestamp?: string | null } | null };
 
 export type GetResultQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type GetResultQuery = { __typename?: 'Query', result?: { __typename?: 'Result', id: string, username?: string | null, createdAt: any, seconds?: number | null } | null };
+export type GetResultQuery = { __typename?: 'Query', result?: { __typename?: 'Result', id: string, username?: string | null, seconds?: number | null, seed?: number | null, hintCount?: number | null, timestamp?: string | null } | null };
 
 export type GetResultsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetResultsQuery = { __typename?: 'Query', resultsConnection: { __typename?: 'ResultConnection', pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, pageSize?: number | null, startCursor?: string | null }, edges: Array<{ __typename?: 'ResultEdge', cursor: string, node: { __typename?: 'Result', id: string, username?: string | null, createdAt: any, seconds?: number | null } }> } };
-
-export type ResultQueryVariables = Exact<{
-  id: Scalars['ID']['input'];
-}>;
+export type GetResultsQuery = { __typename?: 'Query', results: Array<{ __typename?: 'Result', id: string, username?: string | null, seconds?: number | null, hintCount?: number | null, timestamp?: string | null, seed?: number | null }> };
 
 
-export type ResultQuery = { __typename?: 'Query', result?: { __typename?: 'Result', id: string, username?: string | null, createdAt: any, seconds?: number | null } | null };
-
-export type ResultsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type ResultsQuery = { __typename?: 'Query', results: Array<{ __typename?: 'Result', id: string, username?: string | null, seconds?: number | null, createdAt: any }> };
-
-
-export const CreateResultDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createResult"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ResultCreateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createResult"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"seconds"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]} as unknown as DocumentNode<CreateResultMutation, CreateResultMutationVariables>;
-export const GetResultDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetResult"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"result"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"seconds"}}]}}]}}]} as unknown as DocumentNode<GetResultQuery, GetResultQueryVariables>;
-export const GetResultsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"resultsConnection"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"seconds_ASC"}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"30"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}},{"kind":"Field","name":{"kind":"Name","value":"hasPreviousPage"}},{"kind":"Field","name":{"kind":"Name","value":"pageSize"}},{"kind":"Field","name":{"kind":"Name","value":"startCursor"}}]}},{"kind":"Field","name":{"kind":"Name","value":"edges"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"node"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"seconds"}}]}},{"kind":"Field","name":{"kind":"Name","value":"cursor"}}]}}]}}]}}]} as unknown as DocumentNode<GetResultsQuery, GetResultsQueryVariables>;
-export const ResultDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Result"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"result"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"seconds"}}]}}]}}]} as unknown as DocumentNode<ResultQuery, ResultQueryVariables>;
-export const ResultsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Results"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"results"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"30"}},{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"seconds_ASC"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"seconds"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]} as unknown as DocumentNode<ResultsQuery, ResultsQueryVariables>;
+export const CreateResultDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"createResult"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"data"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ResultCreateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"createResult"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"data"},"value":{"kind":"Variable","name":{"kind":"Name","value":"data"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"seconds"}},{"kind":"Field","name":{"kind":"Name","value":"seed"}},{"kind":"Field","name":{"kind":"Name","value":"hintCount"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}}]}}]}}]} as unknown as DocumentNode<CreateResultMutation, CreateResultMutationVariables>;
+export const GetResultDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetResult"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"result"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"where"},"value":{"kind":"ObjectValue","fields":[{"kind":"ObjectField","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}]}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"seconds"}},{"kind":"Field","name":{"kind":"Name","value":"seed"}},{"kind":"Field","name":{"kind":"Name","value":"hintCount"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}}]}}]}}]} as unknown as DocumentNode<GetResultQuery, GetResultQueryVariables>;
+export const GetResultsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetResults"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"results"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"orderBy"},"value":{"kind":"EnumValue","value":"seconds_ASC"}},{"kind":"Argument","name":{"kind":"Name","value":"first"},"value":{"kind":"IntValue","value":"100"}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"seconds"}},{"kind":"Field","name":{"kind":"Name","value":"hintCount"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"seed"}}]}}]}}]} as unknown as DocumentNode<GetResultsQuery, GetResultsQueryVariables>;

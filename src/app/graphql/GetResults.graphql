@@ -4,5 +4,8 @@ query GetResults {
     username
     createdAt
     seconds
+    hintCount
+    timestamp
+    seed
   }
 }

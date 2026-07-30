@@ -3,6 +3,8 @@ mutation createResult($data: ResultCreateInput!) {
     id
     username
     seconds
-    createdAt
+    seed
+    hintCount
+    timestamp
   }
 }
