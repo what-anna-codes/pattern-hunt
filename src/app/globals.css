@@ -8,7 +8,6 @@
     var(--font-momo-trust), ui-monospace, "Segoe UI Mono", "Ubuntu Mono",
     "Roboto Mono", Menlo, Monaco, Consolas, monospace;
   --shadow-card: 2px 2px 2px #00000021, rgba(5, 0, 0, 0.3) 0px 26px 40px;
-
   --active: hsl(283, 20%, 85%);
   --accepted: hsl(104, 39%, 80%);
   --rejected: hsl(16, 87%, 82%);
@@ -17,9 +16,45 @@
   --purple_extralight: hsl(283, 20%, 85%);
   --purple_dark: hsl(283, 20%, 38%);
   --green_light: hsl(104, 39%, 70%);
-  --green_main: hsl(104, 39%, 40%);
-  --red_main: hsl(12, 87%, 55%);
+  --green_main: hsl(90, 39%, 40%);
+  --red_main: hsl(15, 78%, 54%);
   --red_light: hsl(16, 87%, 75%);
+
+  @keyframes wiggle {
+    0%,
+    100% {
+      transform: rotateY(360deg);
+      background: rgba(105, 60, 155, 1);
+    }
+    50% {
+      transform: rotateY(375deg) rotateZ(-1deg) translate(-2px, 2px);
+      background: linear-gradient(
+        to right,
+        rgba(105, 60, 155, 1),
+        rgba(95, 40, 135, 1)
+      );
+    }
+    50% {
+      transform: rotateY(350deg) skew(2deg, -1deg);
+    }
+    75% {
+      transform: rotateY(365deg) translate(-2px, 2px) skew(-1deg, 0deg);
+    }
+  }
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+button,
+a {
+  cursor: pointer;
+  &:disabled,
+  &.disabled {
+    cursor: disabled;
+  }
 }
 
 .purple {
@@ -38,8 +73,10 @@
 }
 
 main {
-  display: flex;
-  background: linear-gradient(150deg, #eaeaea, #fff6f5);
+  background-image: url("/bg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center bottom;
   @apply flex flex-col justify-between items-center w-screen h-screen max-w-screen overflow-hidden font-sans;
 }
 
@@ -50,6 +87,9 @@ main {
 
 .bottom-bar {
   @apply justify-center;
+  @media (orientation: portrait) {
+    @apply p-0;
+  }
 }
 
 .top-bar {
@@ -67,14 +107,16 @@ main {
   max-height: min(80%, 89vw);
   flex-grow: 1;
   z-index: 1;
-
+  padding: 1rem;
   font-family: var(--font-accent);
-  @media (min-width: 601px) and (orientation: landscape) {
+
+  @media (min-width: 401px) and (orientation: landscape) {
     width: 100vw;
     height: 50vw;
     max-height: 80vh;
     max-width: min(100vw, calc(80vh * 2));
     aspect-ratio: 2 / 1;
+    padding: 2rem;
     font-size: 1.3rem;
   }
 }

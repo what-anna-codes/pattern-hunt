@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nata+Sans:wght@100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nata+Sans:wght@100..900&display=swap");
 @import "tailwindcss";
 
 .SaveResultBox {
@@ -12,7 +12,7 @@
   background-color: rgba(255, 255, 255, 0.6);
   box-shadow: rgba(255, 255, 255, 0.7) 0 0 120px 80px;
   z-index: 1;
-    font-family: "Nata Sans";
+  font-family: "Nata Sans";
   color: var(--purple_main);
   @media (orientation: portrait) and (max-width: 800px) {
     justify-content: flex-start;
@@ -27,8 +27,7 @@
 }
 
 .SaveResultBox__summary {
-  margin-bottom: 5rem;
-    font-family: "Nata Sans";
+  font-family: "Nata Sans";
   @media (orientation: landscape) and (min-width: 800px) {
     width: 70%;
     padding: 2rem 3rem 0;
@@ -65,7 +64,8 @@
   border-top: 2px solid var(--purple_light);
   border-bottom: 2px solid var(--purple_light);
   font-size: 1.4rem;
-font-weight: 800;
+  font-weight: 800;
+  margin-top: 1rem;
   padding: 0.25rem 0.5rem;
   font-family: var(--font-accent);
   background-color: transparent;
@@ -82,8 +82,8 @@ font-weight: 800;
   }
 
   @media (max-width: 800px) {
-    position: absolute;
     bottom: 2.5rem;
+    position: absolute;
     width: 100vw;
   }
 }
@@ -93,7 +93,7 @@ font-weight: 800;
   font-size: 1.05rem;
   @media (orientation: portrait) and (max-width: 900px) {
     font-size: 0.85rem;
-      letter-spacing: 0.02rem;
+    letter-spacing: 0.02rem;
   }
 }
 

@@ -1,4 +1,10 @@
-import { Features, CardColors, CardShapes, CardFills } from "../ts/types";
+import { Colors, Fills, Shapes } from "../ts/types";
+
+export const sampleSets = [
+  ["red-squiggle-blank-1", "red-squiggle-blank-2",
+  "red-squiggle-blank-3",
+  ]
+]
 
 export const sampleCardIds = [
   "red-squiggle-blank-1",
@@ -6,7 +12,7 @@ export const sampleCardIds = [
   "red-stadium-blank-2",
   "red-squiggle-full-1",
   "purple-stadium-gradient-2",
-  "purple-squiggle-full-1",
+  "green-squiggle-full-1",
   "green-squiggle-blank-2",
   "green-stadium-blank-1",
   "green-diamond-gradient-3",
@@ -27,10 +33,10 @@ export const getFeatures = (cardId: string) => {
 
 export function generateDeck(seed?: number) {
   let deck: Array<string> = [];
-  let features: Features = {
-    color: [CardColors.Red, CardColors.Green, CardColors.Purple],
-    shape: [CardShapes.Diamond, CardShapes.Squiggle, CardShapes.Stadium],
-    fill: [CardFills.Blank, CardFills.Full, CardFills.Gradient],
+  let features = {
+    color: [Colors.Red, Colors.Green, Colors.Purple],
+    shape: [Shapes.Diamond, Shapes.Squiggle, Shapes.Stadium],
+    fill: [Fills.Blank, Fills.Full, Fills.Gradient],
     count: [1, 2, 3],
   };
 

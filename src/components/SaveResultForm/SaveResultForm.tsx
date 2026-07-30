@@ -1,39 +1,48 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { useMutation } from "@apollo/client";
+import { motion } from "motion/react";
+import { MutationResult, useMutation } from "@apollo/client";
 import TimeResult from "../TimeResult/TimeResult";
 import {
   CreateResultDocument,
-  ResultsDocument,
+  CreateResultMutation,
+  CreateResultMutationVariables,
+  GetResultsDocument,
 } from "@/src/__generated__/graphql";
 import { useRouter } from "next/navigation";
 import SimpleButton from "../SimpleButton/SimpleButton";
-import { CardColors } from "@/src/ts/types";
+import { Colors } from "@/src/ts/types";
 import "./SaveResultForm.css";
 import { PENALTY } from "@/src/utils/constants";
+import { Field, Formik } from "formik";
 
 interface Props {
   hintCount: number;
+  seed?: number;
   duration?: number | null;
   classNames?: string;
 }
 
-function SaveResultForm({ classNames, duration, hintCount }: Props) {
+interface SaveResultFormValues {
+  username: string;
+}
+
+function SaveResultForm({ classNames, seed, duration = 666, hintCount = 3 }: Props) {
   const [newResult, setNewResult] = useState(null);
   const router = useRouter();
   const [totalTime, setTotalTime] = useState(0);
   useEffect(() => {
     duration && setTotalTime(duration + hintCount * PENALTY);
+  duration && console.log('duration');
   }, [duration, hintCount]);
 
   const [createRecord] = useMutation(CreateResultDocument, {
     update(cache, { data }) {
-      const existingData = cache.readQuery({ query: ResultsDocument });
+      const existingData = cache.readQuery({ query: GetResultsDocument });
       if (existingData && data?.createResult) {
         cache.writeQuery({
-          query: ResultsDocument,
+          query: GetResultsDocument,
           data: {
             results: [data.createResult, ...existingData.results],
           },
@@ -42,30 +51,33 @@ function SaveResultForm({ classNames, duration, hintCount }: Props) {
     },
   });
 
-  const [username, setUsername] = useState<string>("");
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    username &&
+  const submit = (values:SaveResultFormValues) => {
+const { username } = values;
+     const timestamp = Date.now().toString();
+    values.username &&
       createRecord({
         variables: {
           data: {
             username,
-            seconds: totalTime ?? 500,
+            seconds: totalTime ?? 0,
+            seed,
+            hintCount,
+            timestamp,
           },
         },
-        onCompleted: async (data: any) => {
+        onCompleted: async (data: MutationResult<CreateResultMutation>['data']) => {
           if (data?.createResult) {
-            const timestamp = Date.now();
-            setNewResult(data?.createResult);
+
+            // setNewResult(data.createResult);
             router.push(`/results?id=${data.createResult.id}&t=${timestamp}`);
           }
         },
-        refetchQueries: [{ query: ResultsDocument }],
+        refetchQueries: [{ query: GetResultsDocument }],
         awaitRefetchQueries: true,
       });
   };
-
+  const penaltySeconds = hintCount * PENALTY;
   return (
     <motion.div
       layout
@@ -74,7 +86,7 @@ function SaveResultForm({ classNames, duration, hintCount }: Props) {
       animate={{ y: 0, opacity: 1 }}
       className={`SaveResultBox ${classNames}`}>
       <div className="h-fit flex flex-col items-center w-full">
-        <div className="SaveResultBox__summary flex flex-col lg:px-4 uppercase text-center tracking-[0.02rem] leading-7 items-center text-[17px] lg:text-[20px]">
+        <div className="SaveResultBox__summary  flex flex-col lg:px-4 uppercase text-center tracking-[0.02rem] leading-7 items-center text-[17px] lg:text-[20px] mb-22">
           {duration ? (
             <>
               <div className="mt-2" style={{ fontWeight: 400 }}>
@@ -97,31 +109,45 @@ function SaveResultForm({ classNames, duration, hintCount }: Props) {
               <div style={{ fontWeight: 500 }}>
                 hints&nbsp;needed:&nbsp;{hintCount}
               </div>
-              <div className="mb-5" style={{ fontWeight: 300 }}>
-                penalty:&nbsp;00:{hintCount * PENALTY}
-              </div>
+              {penaltySeconds > 0 && <div className="flex" style={{ fontWeight: 300 }}>
+                time added:&nbsp;
+                <TimeResult duration={penaltySeconds} />
+              </div>}
             </>
           ) : (
             <p>You found them all!</p>
           )}
         </div>
         {duration && (
-          <form className="ResultForm" style={{ fontFamily: "Nata Sans" }}>
-            <input
+          <Formik initialValues={{username: ""}} onSubmit={submit}>
+{({values, handleChange, setStatus, status, handleSubmit}) => (
+          <form className="ResultForm" style={{ fontFamily: "Nata Sans" }} onSubmit={handleSubmit}>
+           <div className="flex flex-col"> <Field
               name="username"
               className="lowercase"
               placeholder="Enter name to save your result"
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <SimpleButton
+              onChange={(e:React.ChangeEvent<HTMLInputElement>) => {
+                console.log('eee', e);
+                if (e.target.value.length > 10) {
+                  setStatus('max')
+                } else if (status === 'max') {
+setStatus('')
+              }
+                              handleChange(e)
+}}
+              />
+              {status === 'max' && <span className="text-sm mt-[-1.4rem] text-center text-red-800/60">Usernames can't be longer than 10 characters.</span>}
+</div>
+              <SimpleButton
               type="submit"
               classNames="submit-button"
-              isDisabled={username.length < 3}
+              isDisabled={values.username.length < 3 || values.username.length > 10}
               onClick={handleSubmit}
-              color={CardColors.Purple}
+              color={Colors.Purple}
               label="Submit"
             />
-          </form>
+          </form>)}
+          </Formik>
         )}
       </div>
     </motion.div>

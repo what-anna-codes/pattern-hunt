@@ -3,14 +3,13 @@ import { useTimer } from "use-timer";
 
 import TimeResult from "../TimeResult/TimeResult";
 import {
-  CardColors,
+  Colors,
   GameStatuses,
-  GameStatus as GameStatusType,
 } from "../../ts/types";
 import "./Timer.css";
 
 interface Props {
-  gameStatus: GameStatusType;
+  gameStatus: GameStatuses;
   liftDuration: Dispatch<SetStateAction<number | null>>;
   classNames?: string;
 }
@@ -36,7 +35,7 @@ function Timer({ gameStatus, liftDuration, classNames }: Props) {
 
   return (
     <button
-      className={`Timer ${CardColors.Purple} ${classNames}`}
+      className={`Timer ${Colors.Purple} ${classNames}`}
       disabled={status !== "RUNNING" && time !== 0}
       onClick={() => {
         pause();

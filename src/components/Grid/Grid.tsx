@@ -3,13 +3,19 @@ import "./Grid.css";
 
 interface Props {
   children: ReactNode;
+  isExpanded?: boolean;
+  classNames?: string;
 }
 
-function Grid({ children }: Props) {
+function Grid({ children, isExpanded = false, classNames = "" }: Props) {
   return (
-    <div className="Grid">
-      <div className="Grid__inner">{children}</div>
-    </div>
+
+
+    <div className={`Grid ${isExpanded ? 'expanded' : ''}  `}>
+      <div className={`Grid__inner ${classNames}`}>{children}</div>
+ </div>
+
+
   );
 }
 

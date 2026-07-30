@@ -1,14 +1,14 @@
 @import "tailwindcss";
 
 .simple-button {
-  aspect-ratio: 4.5 / 1;
-  min-width: 12rem;
-  height: auto;
+  min-aspect-ratio: 4 / 1;
+  min-width: 16rem;
+  height: min(100%, auto);
   background-color: var(--light);
   cursor: pointer;
   transition: all 0.8s;
   letter-spacing: 0.14rem;
-
+  margin-top: 0.5rem;
   &:hover,
   &:active {
     background-color: var(--main);
@@ -27,6 +27,17 @@
   &:disabled,
   &.disabled {
     @apply shadow-md text-zinc-50 bg-zinc-300 cursor-not-allowed opacity-65;
+  }
+}
+
+.hint-button {
+  @media (orientation: portrait) {
+    width: 100%;
+    margin-bottom: -1rem;
+    height: min(4rem, 10%);
+    border-radius: 0;
+    display: flex;
+    align-self: flex-end;
   }
 }
 

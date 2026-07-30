@@ -1,8 +1,19 @@
 import { AnimatePresence, motion } from "motion/react";
-import { ReactNode } from "react";
+import { CSSProperties, ReactNode } from "react";
 import "./CardFlip.css";
+import { cardFlipVariants } from "./CardFlipUtils";
 
-export const CardFlip = ({ children }: { children: ReactNode }) => {
+export const CardFlip = ({
+  style = {},
+  children,
+  isExiting = false,
+  classNames = "",
+}: {
+  children: ReactNode;
+  isExiting?: boolean;
+  classNames?: string;
+  style?: CSSProperties;
+}) => {
   return (
     <AnimatePresence>
       <motion.div
@@ -12,29 +23,21 @@ export const CardFlip = ({ children }: { children: ReactNode }) => {
           perspective: 1200,
           transformOrigin: "50% 50%",
           willChange: "transform, opacity",
+          ...{...style}
         }}>
         <motion.div
-          initial={{
-            rotateY: 270,
-            opacity: 0.8,
-            translateZ: -24,
-            filter: "blur(0.8px)",
-          }}
-          animate={{
-            rotateY: 360,
-            opacity: 1,
-            translateZ: 0,
-            filter: "blur(0px)",
-          }}
-          exit={{ rotateY: 90, opacity: 0.9 }}
+          initial={"initial"}
+          animate={isExiting ? "isExiting" : "isEntering"}
+          variants={cardFlipVariants}
           transition={{
             type: "spring",
             stiffness: 380,
-            damping: 46,
+            damping: 56,
+            duration: 3.8,
             mass: 1.15,
             delay: 0.02,
           }}>
-          <div className="Card__inner">{children}</div>
+          <div className={`Card__inner ${classNames}`}>{children}</div>
         </motion.div>
       </motion.div>
     </AnimatePresence>

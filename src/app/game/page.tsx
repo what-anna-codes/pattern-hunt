@@ -1,5 +1,5 @@
 "use client";
-import { Status, GameStatuses, CardStatuses, CardColors } from "@/src/ts/types";
+import { GameStatuses, CardStatuses, Colors } from "@/src/ts/types";
 import "./GamePage.css";
 import { generateDeck, checkAll, check } from "@/src/utils/deck";
 import { useWindowSize } from "@uidotdev/usehooks";
@@ -15,16 +15,18 @@ import HomeIconLink from "@/src/components/HomeIconLink/HomeIconLink";
 import SimpleButton from "@/src/components/SimpleButton/SimpleButton";
 import { CardFlip } from "@/src/components/CardFlip/CardFlip";
 import { containerFadeDelay, containerFadeDuration } from "@/src/utils/motion";
+import { useFlipTransition } from "@/src/hooks/useFlipTransition";
+import ContainerPage from "@/src/components/CardFlip/ContainerPage";
 
 export default function GamePage() {
   const { Accepted, Active, Default, Rejected } = CardStatuses;
-
+ const { isNavigating, handleNavigate } = useFlipTransition();
   const [deck, setDeck] = useState<Array<string>>([]);
   const [activeCards, setActiveCards] = useState<Array<string>>([]);
   const [visibleCards, setVisibleCards] = useState<Array<string>>([]);
-  const [currentStatus, setCurrentStatus] = useState<Status>(Active);
+  const [currentStatus, setCurrentStatus] = useState<CardStatuses>(Active);
   const [duration, setDuration] = useState<number | null>(0);
-  const [gameStatus, setGameStatus] = useState(GameStatuses.Ready);
+  const [gameStatus, setGameStatus] = useState(GameStatuses.Over);
   const [possibleSet, setPossibleSet] = useState<string[] | boolean>(false);
   const [hintCount, setHintCount] = useState<number>(0);
   const size = useWindowSize();
@@ -34,7 +36,7 @@ export default function GamePage() {
     const seedParam = params?.get("seed");
     const seedNum = seedParam ? Number(seedParam) : undefined;
     let newDeck = generateDeck(seedNum);
-    setDeck(newDeck.slice(12, 18));
+    setDeck(newDeck.slice(12));
     setVisibleCards(newDeck.slice(0, 12));
     setGameStatus(GameStatuses.On);
   }, []);
@@ -134,7 +136,7 @@ export default function GamePage() {
 
   const isOver = gameStatus === GameStatuses.Over;
   return (
-    <main className="game-page">
+    <ContainerPage classNames="game-page" isNavigating={isNavigating}>
       <motion.div
         layout
         initial={{ opacity: 0.5 }}
@@ -144,7 +146,7 @@ export default function GamePage() {
         {!isOver && (
           <Timer gameStatus={gameStatus} liftDuration={setDuration} />
         )}
-        <HomeIconLink />
+        <HomeIconLink onNavigate={() => handleNavigate("/")} />
       </motion.div>
       <motion.div
         className="grid-wrapper"
@@ -158,7 +160,9 @@ export default function GamePage() {
           {visibleCards?.map((id: string, i: number) => {
             const variants = getVariants(i, size?.width);
             return (
-              <CardFlip key={`game-page_card_card-flip-${id}`}>
+              <CardFlip
+                key={`game-page_card_fcard-flip-${id}-${i}`}
+                isExiting={isNavigating}>
                 <motion.div
                   className="CardWrapper"
                   variants={variants}
@@ -188,20 +192,20 @@ export default function GamePage() {
             );
           })}
           {isOver && (
-            <SaveResultForm hintCount={hintCount} duration={duration} />
+            <SaveResultForm seed={Number(params.get('seed'))} hintCount={hintCount} duration={duration} />
           )}
         </Grid>
       </motion.div>
       <div className="bottom-bar">
         {!isOver && (
           <SimpleButton
-            color={CardColors.Green}
+            color={Colors.Green}
             classNames="hint-button fixed bottom-3"
             onClick={showHint}
             label="hint"
           />
         )}
       </div>
-    </main>
+    </ContainerPage>
   );
 }

@@ -1,63 +1,118 @@
+.Grid__inner {
+  background: transparent;
+  display: grid;
+  grid-template-rows: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  position: absolute;
+  margin: auto;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 0.89;
+  @media (orientation: portrait)   {
+    aspect-ratio: 1 / 0.89;
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+
+    max-width: min(100vw, 780px);
+    height: auto;
+  }
+  @media (aspect-ratio > 1 / 1.5) and (aspect-ratio < 2 / 1.5) {
+    width: auto;
+    aspect-ratio: 1 / 0.89;
+    height: 100%;
+
+    place-self: center;
+    top: 0;
+  }
+
+  @media (min-width: 501px) and (orientation: landscape) {
+    aspect-ratio: 2 / 1;
+    grid-auto-flow: column;
+    height: min(calc(100% - 2rem), 80vh);
+    width: auto;
+    margin: auto;
+    max-width: min(calc(100vw - 4rem), calc(100% - 2rem), 80vh * 2, 1200px);
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+    max-height: min(80vh, 500px);
+  }
+}
 .Grid {
-  aspect-ratio: 1 / 1.12;
+  aspect-ratio: 1 / 0.89;
   display: flex;
-  align-self: center;
-  justify-self: center;
+
+ place-self: center;
   justify-content: center;
-  flex-wrap: wrap;
+  align-items: center;
   flex-grow: 1;
   position: relative;
-  width: 100%;
 
+  height: auto;
+  @media (min-width: 501px) and (orientation: landscape) {
+    aspect-ratio: 2 / 1;
+    grid-auto-flow: column;
+    height: min(calc(100% - 2rem), 80vh);
+width: auto;
+
+      }    @media (orientation: portrait) and (min-width: 750px) {
+    align-items: center;
+    margin-top: 0;
+    top: 0;
+
+  }
   /* mobile, short screens */
-  @media (aspect-ratio > 1 / 1.5) and (aspect-ratio < 1 / 0.8) {
-    filter: grayscale(100%);
-    width: auto;
-    aspect-ratio: 1 / 1.12;
-    height: 100%;
+  @media  (aspect-ratio < 1 / 0.6) {
+    aspect-ratio: 2 / 1;
+    min-width: 100%;
+    height: auto;
+    /* background: blue; */
+    display: flex;
+    align-items: center;
+justify-content: center;
+      max-width: min(100%, 300px);
   }
 
   /* desktop */
   @media (min-width: 601px) and (orientation: landscape) {
-    aspect-ratio: 2.5 / 1;
-    height: 100%;
-    width: auto;
-    max-width: min(80vh * 2.5, 1200px);
+    aspect-ratio: 2 / 1;
+    width: 100%;
+    height: auto;
+    margin: auto auto;
+   max-width: min(1000px, calc(100vw - 4rem));
   }
 }
 
-.Grid__inner {
-  background: transparent;
-  display: grid;
-  grid-template-rows: repeat(5, 1fr);
-  grid-template-columns: repeat(3, 1fr);
-  position: absolute;
-  top: 10%;
-  margin: auto;
-  width: 100%;
-
-  @media (aspect-ratio > 1 / 1.5) and (aspect-ratio < 2 / 1) {
-    width: auto;
-    aspect-ratio: 1 / 1.12;
-    height: 100%;
-    justify-self: center;
-  }
+.Grid.expanded {
+  aspect-ratio: 1 / 1.12;
 
   @media (min-width: 601px) and (orientation: landscape) {
     aspect-ratio: 2.5 / 1;
-    grid-auto-flow: column;
-    height: min(100%, 480px);
-    top: 0;
-    left: 10%;
-    width: auto;
-    max-width: min(80vh * 2.5, 1200px);
+    height: auto;
+    width: 100%;
+    max-width: min(1250px, cal(100vw - 4rem));
+  }
+}
+
+.Grid.expanded .Grid__inner {
+  display: grid;
+  aspect-ratio: 1 / 1.12;
+  height: 100%;
+  width: auto;
+  /* top: -10%; */
+  grid-auto-flow: row;
+  grid-template-rows: repeat(5, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  @media (min-width: 601px) and (orientation: landscape) {
     grid-template-rows: repeat(3, 1fr);
     grid-template-columns: repeat(5, 1fr);
-    max-height: min(80vh, 480px);
-    min-height: calc(67px * 3);
-  }
+    aspect-ratio: 2.5 / 1;
+    align-items: center;
+    justify-content: center;
+    grid-auto-flow: column;
+    height: 100%;
+    width: auto;
+    max-width: min(100vw, 1250px);
 
-  @media (min-height: 601px) and (1 / 1 < aspect-ratio) {
-    top: calc((80vh - 480px) / 2);
+    max-height: min(80vh, 725px);
   }
 }

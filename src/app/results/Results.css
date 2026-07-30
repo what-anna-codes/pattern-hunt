@@ -17,57 +17,62 @@
   text-align: center;
 }
 
+.result-card {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
 .result {
-  transition: all 0.3s;
-  cursor: disabled;
+  transition: all 0.5s;
   display: flex;
   flex-direction: column;
-  padding: 0;
   height: 100%;
-  align-items: flex-end;
-  justify-content: flex-end;
   aspect-ratio: 3 / 2;
   position: relative;
   width: 100%;
-  transition: all 2s;
-  filter: grayscale(90%) opacity(0.38) !important;
-  font-size: 1.2rem;
-  @apply shadow-md bg-linear-120 from-purple-800/70 to-purple-700/90 text-violet-300;
-  letter-spacing: 0.1rem;
+  transition: all 1s;
+  justify-content: space-between;
+  font-size: 1.1rem;
+  white-space: nowrap;
+  @apply shadow-md grayscale-10 bg-linear-120 from-neutral-700/80 to-neutral-600/80 text-white/80 tracking-widest;
+
   &:hover {
-    @apply shadow-xl bg-linear-120 from-purple-600 to-purple-700/90 text-zinc-100;
-    opacity: 1;
-    filter: grayscale(100%) saturate(125%) opacity(1) !important;
-    cursor: auto;
+    @apply shadow-xl backdrop-brightness-50;
+  }
+
+  &:hover * {
+    @apply brightness-140 opacity-85 text-zinc-50;
+  }
+
+  @media (max-width: 800px) {
+    font-size: .9rem;
+  }
+
+  @media (max-width: 450px) {
+    font-size: 0.8rem;
   }
 }
 
 .username {
-  font-size: 1.3rem;
-  letter-spacing: 0.1rem;
-  font-weight: 300;
   display: flex;
   width: 100%;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  text-align: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 40%;
+
   overflow: hidden;
   text-wrap: nowrap;
   z-index: 49;
   text-overflow: ellipsis;
-  @apply text-violet-200;
 
   @media (max-width: 800px) {
     font-size: 1.1rem;
     font-weight: 500;
   }
 
-  @media (max-width: 400px) {
+  @media (max-width: 600px) {
     font-size: 0.8rem;
     font-weight: 400;
   }
@@ -75,15 +80,9 @@
 
 .result-latest {
   transform: scale(0.98);
-  filter: grayscale(0%) opacity(0.6) contrast(135%) !important;
-  & .username {
-    color: inherit;
-  }
-  &:hover {
-    color: white;
-  }
+  @apply bg-linear-120 from-purple-700/60 to-purple-500/90;
   &:hover * {
-    filter: brightness(140%);
+    filter: brightness(120%);
     opacity: 0.85;
   }
 }

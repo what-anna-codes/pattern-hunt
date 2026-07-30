@@ -1,4 +1,4 @@
-import { CardColors } from "@/src/ts/types";
+import { Colors } from "@/src/ts/types";
 import { ButtonHTMLAttributes, ReactNode, useState } from "react";
 import "./SimpleButton.css";
 import { BeatLoader } from "react-spinners";
@@ -7,7 +7,7 @@ interface Props {
   type?: ButtonHTMLAttributes<HTMLButtonElement>["type"];
   onClick: (par?: any) => void;
   classNames?: string;
-  color: CardColors;
+  color: Colors;
   isDisabled?: boolean;
   label: string | ReactNode;
 }
@@ -15,7 +15,7 @@ interface Props {
 function SimpleButton({
   classNames = "",
   onClick,
-  color = CardColors.Purple,
+  color = Colors.Purple,
   type = "button",
   isDisabled = false,
   label,

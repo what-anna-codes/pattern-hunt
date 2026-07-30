@@ -1,64 +1,67 @@
 import { ReactNode } from "react";
 import { Result } from "../__generated__/graphql";
 
-export enum CardColors {
+enum Colors {
     Green = 'green',
     Red = 'red',
     Purple = 'purple'
 }
 
-export enum CardShapes {
+enum Shapes {
     Diamond = 'diamond',
     Squiggle = 'squiggle',
     Stadium = 'stadium',
 }
 
-
-export enum CardFills {
+enum Fills {
     Blank = 'blank',
     Gradient = 'gradient',
     Full = 'full'
 }
 
-export enum CardStatuses {
+enum Counts { One = 1, Two = 2, Three = 3 }
+
+enum FeatureNames {
+    Color = 'color',
+    Shape = 'shape',
+    Fill = 'fill',
+    Count = 'count'
+}
+
+enum CardStatuses {
     Default = 'default',
     Active = 'active',
     Accepted = 'accepted',
     Rejected = 'rejected',
     Disabled = 'disabled',
-    Coloured = 'coloured'
+    Coloured = 'coloured',
+    Learn = 'learn'
 }
 
-export enum GameStatuses {
-  Ready = "isReady",
-  On = "isOn",
-  Ending = "isEnding",
-  Over = "isOver",
+enum GameStatuses {
+    Ready = "isReady",
+    On = "isOn",
+    Over = "isOver",
 }
-
-type Color = CardColors.Green | CardColors.Red | CardColors.Purple;
-type Shape = CardShapes.Diamond | CardShapes.Squiggle | CardShapes.Stadium;
-type Fill = CardFills.Blank | CardFills.Full | CardFills.Gradient;
-type Count = 1 | 2 | 3;
-type Status = CardStatuses.Default | CardStatuses.Accepted | CardStatuses.Active | CardStatuses.Rejected | CardStatuses.Disabled;
-type GameStatus = GameStatuses
-type FeatureNames = 'color' | 'shape' | 'fill' | 'count';
-type FullResult = Pick<Result, 'id' | 'username' | 'seconds' | 'createdAt'>;
 
 type Features = {
-    color: Array<Color>,
-    shape: Array<Shape>,
-    fill: Array<Fill>,
-    count: Array<Count>
+    color: Array<Colors>,
+    shape: Array<Shapes>,
+    fill: Array<Fills>,
+    count: Array<Counts>
 }
 
-type ICard = {
+type FullResult = Pick<Result, 'id' | 'username' | 'seconds' | 'createdAt'>;
+
+interface Card {
     id: string;
-    status?: Status;
+    status?: CardStatuses;
     children?: ReactNode;
     handleClick?: (e: any) => void;
     classNames?: string
     animateInit?: boolean
+    style?: React.CSSProperties
 }
 
-export type { Color, Shape, Features, FeatureNames, Fill, FullResult, Count, Status, GameStatus, ICard };
+export type { Features, FullResult, Card };
+export { Colors, Fills, Counts, Shapes, FeatureNames, CardStatuses, GameStatuses };
