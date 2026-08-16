@@ -1,10 +1,8 @@
 import { Colors, Fills, Shapes } from "../ts/types";
 
 export const sampleSets = [
-  ["red-squiggle-blank-1", "red-squiggle-blank-2",
-  "red-squiggle-blank-3",
-  ]
-]
+  ["red-squiggle-blank-1", "red-squiggle-blank-2", "red-squiggle-blank-3"],
+];
 
 export const sampleCardIds = [
   "red-squiggle-blank-1",
@@ -109,4 +107,17 @@ export function checkAll(cards: Array<string>) {
       }
   }
   return null;
+}
+
+export function findAll(cards: Array<string>) {
+  const sets = [];
+  for (let i = 0; i < cards.length; i++) {
+    for (let j = i + 1; j < cards.length; j++)
+      for (let k = j + 1; k < cards.length; k++) {
+        if (check([cards[i], cards[j], cards[k]])) {
+          sets.push([cards[i], cards[j], cards[k]]);
+        }
+      }
+  }
+  return sets;
 }
