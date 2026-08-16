@@ -1,6 +1,6 @@
 "use client";
 import { GameStatuses, CardStatuses, Colors } from "@/src/ts/types";
-import { generateDeck, checkAll, check } from "@/src/utils/deck";
+import { generateDeck, check, findAll } from "@/src/utils/deck";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { Suspense, useState, useEffect } from "react";
 import { getVariants } from "@/src/app/game/GameUtils";
@@ -30,119 +30,105 @@ function GamePageContent() {
   const { Accepted, Active, Default, Rejected } = CardStatuses;
   const { isNavigating, handleNavigate } = useFlipTransition();
   const [deck, setDeck] = useState<Array<string>>([]);
-  const [activeCards, setActiveCards] = useState<Array<string>>([]);
-  const [visibleCards, setVisibleCards] = useState<Array<string>>([]);
-  const [currentStatus, setCurrentStatus] = useState<CardStatuses>(Active);
+  const [boardSize, setBoardSize] = useState(12);
+  const [selectedCards, setSelectedCards] = useState<Array<string>>([]);
+  const [selectedCardsStatus, setSelectedCardsStatus] =
+    useState<CardStatuses>(Active);
+  const [setsInView, setSetsInView] = useState<string[][]>([]);
   const [duration, setDuration] = useState<number | null>(0);
   const [gameStatus, setGameStatus] = useState(GameStatuses.Over);
-  const [possibleSet, setPossibleSet] = useState<string[] | boolean>(false);
   const [hintCount, setHintCount] = useState<number>(0);
   const size = useWindowSize();
   const params = useSearchParams();
+  const visibleCards = deck.slice(0, boardSize);
 
   useEffect(() => {
     const seedParam = params?.get("seed");
     const seedNum = seedParam ? Number(seedParam) : undefined;
     let newDeck = generateDeck(seedNum);
-    setDeck(newDeck.slice(12));
-    setVisibleCards(newDeck.slice(0, 12));
+    setDeck(newDeck);
     setGameStatus(GameStatuses.On);
   }, []);
+  useEffect(() => {
+    if (
+      gameStatus === GameStatuses.On &&
+      deck.length > boardSize &&
+      !setsInView.length
+    ) {
+      const cardsOnBoard = deck.slice(0, boardSize);
+      const newSetsInView = findAll(cardsOnBoard);
+      setSetsInView(newSetsInView);
+      newSetsInView.length === 0 && addCards();
+    }
+  }, [gameStatus, deck, boardSize, setsInView]);
 
   useEffect(() => {
-    if (gameStatus === GameStatuses.On && deck.length < 1) {
-      const setsPresent = checkAll(visibleCards);
-      !setsPresent && setGameStatus(GameStatuses.Over);
+    if (gameStatus === GameStatuses.On && deck.length <= boardSize) {
+      const setsPresent = findAll(deck);
+      !setsPresent.length && setGameStatus(GameStatuses.Over);
     }
-  }, [deck, gameStatus, visibleCards]);
+  }, [deck, gameStatus, setsInView]);
 
   useEffect(() => {
-    if (activeCards.length === 3 && currentStatus === Active) {
-      const isSet = check(activeCards);
-      setCurrentStatus(isSet ? Accepted : Rejected);
+    if (selectedCards.length === 3 && selectedCardsStatus === Active) {
+      const isValid = check(selectedCards);
+      setSelectedCardsStatus(isValid ? Accepted : Rejected);
     }
-  }, [activeCards, currentStatus]);
+  }, [selectedCards, selectedCardsStatus]);
 
   const showHint = () => {
-    Array.isArray(possibleSet) && setActiveCards(possibleSet);
+    setsInView.length > 0 ? setSelectedCards(setsInView[0]) : addCards();
     setHintCount((prev) => prev + 1);
   };
 
   const replaceCards = (cards: Array<string>) => {
-    const newVisibleCards: string[] = [];
-    const replacements = deck.slice(0, 3);
+    const newDeck: string[] = [...deck];
+    const replacements = deck.slice(boardSize, boardSize + 3);
+    cards.forEach((replacedCard, i) => {
+      const index = deck.indexOf(replacedCard);
+      newDeck.splice(index, 1, replacements[i]);
+      const replacementIndex = newDeck.lastIndexOf(replacements[i]);
+      newDeck.splice(replacementIndex, 1);
+    });
 
-    if (replacements.length < 3) {
-      removeCards(cards);
-    } else {
-      [...visibleCards].forEach((cardId) => {
-        if (cards.includes(cardId)) {
-          newVisibleCards.push(replacements[0]);
-          replacements.splice(0, 1);
-        } else {
-          newVisibleCards.push(cardId);
-        }
-      });
-    }
-    setVisibleCards(newVisibleCards);
-    setPossibleSet(false);
-    setDeck(deck.slice(3));
-    setActiveCards([]);
+    setDeck(newDeck);
+    setSelectedCards([]);
+    setSetsInView([]);
   };
 
   const addCards = () => {
-    const newCards = [...visibleCards].concat(deck.slice(0, 3));
-    setVisibleCards(newCards);
-    setDeck(deck.slice(3));
+    setBoardSize(boardSize + 3);
   };
 
   const removeCards = (cards: Array<string>) => {
-    const newVisibleCards = [...visibleCards].filter(
-      (card) => !cards.includes(card),
-    );
-    setVisibleCards(newVisibleCards);
-    setPossibleSet(false);
-    setActiveCards([]);
+    const newDeck = [...deck].filter((card) => !cards.includes(card));
+    setDeck(newDeck);
+    setBoardSize(boardSize - 3);
   };
 
   const handleCardClick = (id: string) => {
-    const newActiveCards = activeCards.includes(id)
-      ? [...activeCards].filter((card) => card !== id)
-      : [...activeCards, id];
-    setActiveCards(newActiveCards);
+    const newSelectedCards = selectedCards.includes(id)
+      ? [...selectedCards].filter((card) => card !== id)
+      : [...selectedCards, id];
+    setSelectedCards(newSelectedCards);
   };
 
   useEffect(() => {
-    if ([Accepted, Rejected].includes(currentStatus)) {
+    if ([Accepted, Rejected].includes(selectedCardsStatus)) {
       setTimeout(() => {
-        if (currentStatus === Accepted) {
-          visibleCards.length <= 12 && deck.length > 1
-            ? replaceCards(activeCards)
-            : removeCards(activeCards);
+        if (selectedCardsStatus === Accepted) {
+          visibleCards.length <= 12 && deck.length > visibleCards.length
+            ? replaceCards(selectedCards)
+            : removeCards(selectedCards);
         }
-        setActiveCards([]);
-        setCurrentStatus(Active);
+        setSelectedCards([]);
+        setSelectedCardsStatus(Active);
       }, 800);
     }
-  }, [currentStatus, deck, visibleCards]);
-
-  useEffect(() => {
-    if (
-      !possibleSet &&
-      visibleCards.length > 3 &&
-      gameStatus !== GameStatuses.Over
-    ) {
-      const setsPresent = checkAll(visibleCards);
-      if (!setsPresent) {
-        addCards();
-        possibleSet && setPossibleSet(false);
-      } else {
-        !possibleSet && setPossibleSet(setsPresent);
-      }
-    }
-  }, [visibleCards, possibleSet, gameStatus]);
+  }, [selectedCardsStatus, deck, visibleCards]);
 
   const isOver = gameStatus === GameStatuses.Over;
+
   return (
     <ContainerPage classNames="game-page" isNavigating={isNavigating}>
       <motion.div
@@ -189,8 +175,8 @@ function GamePageContent() {
                     status={
                       isOver
                         ? CardStatuses.Disabled
-                        : activeCards.includes(id)
-                          ? currentStatus
+                        : selectedCards.includes(id)
+                          ? selectedCardsStatus
                           : Default
                     }
                     id={id}
@@ -200,7 +186,11 @@ function GamePageContent() {
             );
           })}
           {isOver && (
-            <SaveResultForm seed={Number(params.get('seed'))} hintCount={hintCount} duration={duration} />
+            <SaveResultForm
+              seed={Number(params.get("seed"))}
+              hintCount={hintCount}
+              duration={duration}
+            />
           )}
         </Grid>
       </motion.div>
