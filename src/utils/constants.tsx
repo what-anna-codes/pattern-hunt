@@ -7,4 +7,4 @@ export const cardVariants = {
   count: Object.values(Counts),
 };
 
-export const PENALTY = 10;
+export const PENALTY = 30;
