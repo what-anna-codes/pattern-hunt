@@ -1,0 +1,5 @@
+mutation CreateGame($data: GameCreateInput!) {
+  createGame(data: $data) {
+    id
+  }
+}

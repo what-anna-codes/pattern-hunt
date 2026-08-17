@@ -1,9 +1,8 @@
 "use client";
 
-import { GetResultsQuery } from "@/src/__generated__/graphql";
 import CardFrame from "@/src/components/CardFrame/CardFrame";
 import TimeResult from "@/src/components/TimeResult/TimeResult";
-import { Colors, CardStatuses } from "@/src/ts/types";
+import { Colors, CardStatuses, FullResult } from "@/src/ts/types";
 import "../../Results.css";
 import { motion } from "motion/react";
 import { ReactNode } from "react";
@@ -32,7 +31,7 @@ export default function ResultCard({
   isActive,
   classNames,
 }: {
-  result: GetResultsQuery["results"][0];
+  result: FullResult;
   index: number;
   isActive: boolean;
   rank?: number;

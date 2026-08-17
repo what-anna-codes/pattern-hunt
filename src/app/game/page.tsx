@@ -17,6 +17,10 @@ import { containerFadeDelay, containerFadeDuration } from "@/src/utils/motion";
 import { useFlipTransition } from "@/src/hooks/useFlipTransition";
 import ContainerPage from "@/src/components/CardFlip/ContainerPage";
 import "./GamePage.css";
+import {
+  useCreateGameMutation,
+  useCreateMoveMutation,
+} from "@/src/__generated__/types";
 
 export default function GamePage() {
   return (
@@ -41,6 +45,14 @@ function GamePageContent() {
   const size = useWindowSize();
   const params = useSearchParams();
   const visibleCards = deck.slice(0, boardSize);
+  const [gameId, setGameId] = useState("");
+  const [moveOrdinal, setMoveOrdinal] = useState(0);
+  const [addMove] = useCreateMoveMutation();
+  const [createGame] = useCreateGameMutation({
+    variables: { data: { key: params?.get("seed") } },
+    onCompleted: (data) =>
+      data?.createGame?.id && setGameId(data.createGame.id),
+  });
 
   useEffect(() => {
     const seedParam = params?.get("seed");
@@ -49,6 +61,11 @@ function GamePageContent() {
     setDeck(newDeck);
     setGameStatus(GameStatuses.On);
   }, []);
+
+  useEffect(() => {
+    !gameId && createGame();
+  }, [gameId]);
+
   useEffect(() => {
     if (
       gameStatus === GameStatuses.On &&
@@ -72,9 +89,24 @@ function GamePageContent() {
   useEffect(() => {
     if (selectedCards.length === 3 && selectedCardsStatus === Active) {
       const isValid = check(selectedCards);
+      const triplets = setsInView.map((set) => ({ cardId: set }));
+      addMove({
+        variables: {
+          data: {
+            ordinal: moveOrdinal,
+            cardsSelected: { create: { cardId: selectedCards } },
+            setsVisible: { create: triplets },
+            boardSize,
+            isValid,
+            game: { connect: { id: gameId } },
+            timestamp: Date.now().toString(),
+          },
+        },
+      });
+      setMoveOrdinal(moveOrdinal + 1);
       setSelectedCardsStatus(isValid ? Accepted : Rejected);
     }
-  }, [selectedCards, selectedCardsStatus]);
+  }, [moveOrdinal, boardSize, selectedCards, selectedCardsStatus]);
 
   const showHint = () => {
     setsInView.length > 0 ? setSelectedCards(setsInView[0]) : addCards();
@@ -137,6 +169,12 @@ function GamePageContent() {
         animate={{ opacity: 1 }}
         transition={{ delay: 0, duration: 0.4 }}
         className="top-bar">
+        <span style={{ paddingInline: "1rem" }}>
+          sets in sight: {setsInView.length}
+        </span>
+        <span style={{ paddingInline: "1rem" }}>
+          cards remaining: {deck.length}
+        </span>
         {!isOver && (
           <Timer gameStatus={gameStatus} liftDuration={setDuration} />
         )}
@@ -185,9 +223,10 @@ function GamePageContent() {
               </CardFlip>
             );
           })}
-          {isOver && (
+          {isOver === true && (
             <SaveResultForm
               seed={Number(params.get("seed"))}
+              gameId={gameId}
               hintCount={hintCount}
               duration={duration}
             />

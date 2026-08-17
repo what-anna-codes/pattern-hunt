@@ -6,11 +6,13 @@ import ResultsGrid from "./ResultsGrid/ResultsGrid";
 import { useSearchParams } from "next/navigation";
 import { motion } from "motion/react";
 import {
-  GetResultsQuery,
-  GetResultsDocument,
   GetResultDocument,
   GetResultQuery,
-} from "@/src/__generated__/graphql";
+  GetTopHundredResultsDocument,
+  GetTopHundredResultsQuery,
+  GetTopPageResultsDocument,
+  GetTopPageResultsQuery,
+} from "@/src/__generated__/types";
 import { useQuery } from "@apollo/client";
 import { useThrottle } from "@uidotdev/usehooks";
 import HomeIconLink from "@/src/components/HomeIconLink/HomeIconLink";
@@ -29,18 +31,31 @@ export default function ResultsPage() {
 function ResultsPageContent() {
   const params = useSearchParams();
   const activeResultId = params.get("id");
-  const { data, loading } = useQuery<GetResultsQuery>(GetResultsDocument);
+  const { data, loading } = useQuery<GetTopPageResultsQuery>(
+    GetTopPageResultsDocument,
+  );
   const { data: newResultData } = useQuery<GetResultQuery>(GetResultDocument, {
     variables: { id: activeResultId },
     skip: !activeResultId,
   });
+  const { data: allResultsData } = useQuery<GetTopHundredResultsQuery>(
+    GetTopHundredResultsDocument,
+    {
+      variables: { id: activeResultId },
+      skip:
+        !activeResultId ||
+        data?.results.map((r) => r.id).includes(activeResultId),
+    },
+  );
   const [rank, setRank] = useState<number | null>(null);
-  const [sorted, setSorted] = useState<GetResultsQuery["results"] | null>(null);
+  const [sorted, setSorted] = useState<
+    GetTopPageResultsQuery["results"] | null
+  >(null);
   const throttledValue = useThrottle(sorted, 500);
   const { isNavigating, handleNavigate } = useFlipTransition();
 
   const getRank = (
-    results: GetResultsQuery["results"],
+    results: GetTopHundredResultsQuery["results"],
     newResult: Pick<FullResult, "seconds">,
   ) => {
     const allSeconds = results.map((r) => r.seconds);
@@ -51,8 +66,8 @@ function ResultsPageContent() {
   };
 
   useEffect(() => {
-    if (newResultData?.result && data?.results && !rank) {
-      const newRank = getRank(data.results, newResultData.result);
+    if (newResultData?.result && allResultsData?.results && !rank) {
+      const newRank = getRank(allResultsData?.results, newResultData.result);
       setRank(newRank);
     }
     if (activeResultId && data?.results && newResultData && throttledValue) {
@@ -66,7 +81,8 @@ function ResultsPageContent() {
           )
         : data.results.slice(0, 11);
 
-      sortedResults && setSorted(sortedResults as GetResultsQuery["results"]);
+      sortedResults &&
+        setSorted(sortedResults as GetTopPageResultsQuery["results"]);
     } else if (data?.results && !sorted) {
       setSorted(data?.results.slice(0, 11));
     }

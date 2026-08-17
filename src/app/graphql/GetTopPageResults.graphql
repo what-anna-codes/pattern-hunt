@@ -1,0 +1,11 @@
+query GetTopPageResults {
+  results(orderBy: seconds_ASC, first: 11) {
+    id
+    hintCount
+    seconds
+    username
+    game {
+      key
+    }
+  }
+}

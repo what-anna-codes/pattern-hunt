@@ -1,0 +1,6 @@
+query GetTopHundredResults {
+  results(orderBy: seconds_ASC, first: 100) {
+    id
+    seconds
+  }
+}

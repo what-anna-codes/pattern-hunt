@@ -1,10 +1,9 @@
 "use client";
 
-import { GetResultsQuery } from "@/src/__generated__/graphql";
 import { CardLink } from "@/src/components/CardLink/CardLink";
 import CardFrame from "@/src/components/CardFrame/CardFrame";
 import Grid from "@/src/components/Grid/Grid";
-import { Colors } from "@/src/ts/types";
+import { Colors, FullResult } from "@/src/ts/types";
 import ResultCard from "./ResultCard/ResultCard";
 import "../Results.css";
 import { CardFlip } from "@/src/components/CardFlip/CardFlip";
@@ -17,7 +16,7 @@ export default function ResultsGrid({
   isNavigating,
   rank,
 }: {
-  results: GetResultsQuery["results"] | null;
+  results: FullResult[] | null;
   activeId: string | null;
   handleNavigate: (href: string) => void;
   isNavigating: boolean;

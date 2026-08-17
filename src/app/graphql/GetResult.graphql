@@ -1,0 +1,11 @@
+query GetResult($id: ID!) {
+  result(where: {id: $id}) {
+    id
+    hintCount
+    seconds
+    username
+    game {
+      key
+    }
+  }
+}

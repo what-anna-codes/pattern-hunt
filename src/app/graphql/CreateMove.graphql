@@ -1,0 +1,5 @@
+mutation CreateMove($data: MoveCreateInput!) {
+  createMove(data: $data) {
+    id
+  }
+}
