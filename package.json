@@ -12,8 +12,10 @@
   "dependencies": {
     "@apollo/client": "^3.13.8",
     "@graphql-codegen/cli": "^5.0.7",
+    "@graphql-codegen/introspection": "^6.1.0",
     "@graphql-codegen/typescript": "^4.1.6",
     "@graphql-codegen/typescript-operations": "^4.6.1",
+    "@graphql-codegen/typescript-react-apollo": "^5.0.0",
     "@next/env": "^16.2.9",
     "@uidotdev/usehooks": "^2.4.1",
     "formik": "^2.4.9",
