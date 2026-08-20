@@ -4,7 +4,7 @@
   aspect-ratio: 3 / 2;
   padding: 2%;
   width: auto;
-  max-width: min(100%, 30vw, 250px);
+  /* max-width: min(100%, 30vw, 250px); */
   display: flex;
   flex-grow: 1;
 
@@ -32,16 +32,16 @@
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  height: 100%;
+  min-height: 100%;
   opacity: 0.8;
-  width: 100%;
-  padding: 10px;
+  min-width: 100%;
+  /* padding: 10px; */
   text-align: center;
   line-height: 1.15;
   transition: all 0.3s ease;
   filter: brightness(105%);
 
-  @apply shadow-md;
+  @apply shadow-md bg-zinc-400;
   &:hover,
   &.active,
   &.accepted {
@@ -71,6 +71,7 @@
 
   &.active {
     background-color: var(--active);
+    @apply shadow-sm;
   }
 
   &.accepted {

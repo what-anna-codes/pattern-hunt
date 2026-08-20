@@ -20,7 +20,7 @@
   & .top-cnt,
   & .bottom-cnt {
     height: var(--header-h);
-    min-height: var(--max-header-h);
+    min-height: var(--header-min-h);
     background-color: hsl(240, 4%, 46%);
   }
 
@@ -33,7 +33,7 @@
   }
 
   & .center-cnt {
-    max-height: calc(100% - var(--header-h) * 2);
+    max-height: min(80svh, calc(100% - var(--header-h) * 2));
     width: 100%;
     display: flex;
     flex-grow: 1;
