@@ -1,71 +1,83 @@
 .page-cnt {
-  border: 1px solid red;
+  --header-h: 3rem;
+  --header-min-h: 10svh;
+
+  border: 1px solid hsl(268, 93%, 47%);
+  background-color: hsl(240, 5%, 96%);
   width: 100%;
   height: 100svh;
   display: flex;
   flex-direction: column;
-}
 
-.top-cnt,
-.bottom-cnt {
-  height: 3rem;
-  min-height: 10svh;
-  background-color: darkgray;
-}
+  font-size: 1.3rem;
+  color: hsla(240, 4%, 16%, 80%);
+  & * {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-.top-cnt {
-  order: 1;
-}
+  & .top-cnt,
+  & .bottom-cnt {
+    height: var(--header-h);
+    min-height: var(--max-header-h);
+    background-color: hsl(240, 4%, 46%);
+  }
 
-.bottom-cnt {
-  order: 3;
-}
+  & .top-cnt {
+    order: 1;
+  }
 
-.center-cnt {
-  max-height: calc(100% - 6rem);
-  width: 100%;
-  display: flex;
-  flex-grow: 1;
-  order: 2;
+  & .bottom-cnt {
+    order: 3;
+  }
 
-}
-
+  & .center-cnt {
+    max-height: calc(100% - var(--header-h) * 2);
+    width: 100%;
+    display: flex;
+    flex-grow: 1;
+    order: 2;
     & .cards-cnt {
- display: flex;
-  flex-grow: 1;
-  background-color: orange;
-     }
+      display: flex;
+      flex-grow: 1;
+      background-color: hsl(240, 5%, 96%);
+    }
 
-.sidebar-cnt {
-    display: none;
+    & .sidebar-cnt {
+      background-color: hsl(240, 5%, 84%);
+      display: none;
+    }
+  }
 }
 
 .btn-cnt {
-    background-color: green;
-    height: 100%;
-    width: 100%;
+  background-color: hsl(81, 88%, 64%);
+  height: 100%;
+  width: 100%;
 }
 
 .page-cnt {
+  --sidebar-w: 12rem;
+  --sidebar-max-w: 25vw;
 
   @media (orientation: landscape) {
+    & .center-cnt {
+      max-height: 100%;
 
-     & .sidebar-cnt {
-        display: block;
-        width: 12rem;
-        max-width: 25vw;
+      & .sidebar-cnt {
+        display: flex;
+        width: var(--sidebar-w);
+        max-width: var(--sidebar-max-w);
         height: 100%;
-     }
-     & .center-cnt {
-        max-height: 100%;
-     }
+      }
+    }
 
-     @media (max-height: 30rem) {
-         & .top-cnt, & .bottom-cnt {
-           display: none;
-        }
-
-     }
-
+    @media (max-height: 500px) {
+      & .top-cnt,
+      & .bottom-cnt {
+        display: none;
+      }
+    }
   }
 }

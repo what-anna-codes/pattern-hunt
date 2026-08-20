@@ -2,6 +2,8 @@
 import { Suspense } from "react";
 import "./StructurePage.css";
 import { useWindowSize } from "@uidotdev/usehooks";
+import { GameActions } from "./GameActions/GameActions";
+import { getLayoutType } from "./StructurePageUtils";
 
 export default function StructurePage() {
   return (
@@ -10,20 +12,22 @@ export default function StructurePage() {
     </Suspense>
   );
 }
-export const HintButton = () => <button className="btn-cnt">hint</button>;
+
 export const StructurePageContent = () => {
-  const { height } = useWindowSize();
+  const { width, height } = useWindowSize();
+  const { portrait, desktop, mobileLandscape } = getLayoutType(width, height);
+
   return (
     <div className="page-cnt">
-      <div className="top-cnt">top bar</div>
+      <div className="top-cnt">header</div>
       <div className="center-cnt">
         <div className="cards-cnt">cards area</div>
         <div className="sidebar-cnt">
-          {height && height < 500 ? <HintButton /> : "sidebar"}
+          {mobileLandscape ? <GameActions /> : "sidebar"}
         </div>
       </div>
       <div className="bottom-cnt">
-        {height && height >= 500 ? <HintButton /> : "bottom bar"}
+        {portrait || desktop ? <GameActions /> : "bottom bar"}
       </div>
     </div>
   );
