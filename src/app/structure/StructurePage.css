@@ -1,0 +1,71 @@
+.page-cnt {
+  border: 1px solid red;
+  width: 100%;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-cnt,
+.bottom-cnt {
+  height: 3rem;
+  min-height: 10svh;
+  background-color: darkgray;
+}
+
+.top-cnt {
+  order: 1;
+}
+
+.bottom-cnt {
+  order: 3;
+}
+
+.center-cnt {
+  max-height: calc(100% - 6rem);
+  width: 100%;
+  display: flex;
+  flex-grow: 1;
+  order: 2;
+
+}
+
+    & .cards-cnt {
+ display: flex;
+  flex-grow: 1;
+  background-color: orange;
+     }
+
+.sidebar-cnt {
+    display: none;
+}
+
+.btn-cnt {
+    background-color: green;
+    height: 100%;
+    width: 100%;
+}
+
+.page-cnt {
+
+  @media (orientation: landscape) {
+
+     & .sidebar-cnt {
+        display: block;
+        width: 12rem;
+        max-width: 25vw;
+        height: 100%;
+     }
+     & .center-cnt {
+        max-height: 100%;
+     }
+
+     @media (max-height: 30rem) {
+         & .top-cnt, & .bottom-cnt {
+           display: none;
+        }
+
+     }
+
+  }
+}
