@@ -13,7 +13,7 @@ import {
   GetTopPageResultsDocument,
   GetTopPageResultsQuery,
 } from "@/src/__generated__/types";
-import { useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { useThrottle } from "@uidotdev/usehooks";
 import HomeIconLink from "@/src/components/HomeIconLink/HomeIconLink";
 import { useFlipTransition } from "@/src/hooks/useFlipTransition";

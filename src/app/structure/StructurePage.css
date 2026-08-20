@@ -36,7 +36,7 @@
   }
 
   & .center-cnt {
-    max-height: min(80svh, calc(100% - var(--header-h) * 2));
+    /* max-height: min(80svh, calc(100% - var(--header-h) * 2)); */
     width: 100%;
     display: flex;
     flex-grow: 1;
@@ -44,7 +44,6 @@
     & .cards-cnt {
       display: flex;
       flex-grow: 1;
-      /* background-color: hsl(240, 5%, 96%); */
     }
 
     & .sidebar-cnt {
@@ -62,6 +61,17 @@
   flex-grow: 1;
 }
 
+.new-card {
+  aspect-ratio: 3 / 2;
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid white;
+  border-radius: 10px;
+
+  background-color: gray;
+}
 .page-cnt {
   --sidebar-w: 10rem;
   --sidebar-max-w: 25vw;
@@ -83,9 +93,9 @@
       display: none;
     }
     & .center-cnt {
-      max-height: 100%;
+      height: 100%;
       & .cards-cnt {
-        max-height: 100%;
+        height: 100%;
       }
     }
     & .sidebar-cnt {
@@ -96,3 +106,58 @@
     }
   }
 }
+
+.new-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: calc(100% - 2rem);
+  max-height: calc(100cqh - 4rem);
+  gap: 6px;
+  aspect-ratio: 9 / 8;
+  @media (orientation: landscape) {
+    gap: 10px;
+    aspect-ratio: 2 / 1;
+    grid-template-columns: repeat(4, 1fr);
+    width: auto;
+    max-width: calc(100cqw - 4rem);
+  }
+
+  @media (orientation: landscape) {
+    aspect-ratio: 2 / 1;
+    background-color: blueviolet;
+    @media (aspect-ratio > 2) {
+      border: 4px solid orange !important;
+      height: calc(100% - 4rem);
+      width: auto;
+    }
+
+    @media (aspect-ratio <= 2) {
+      border: 4px solid purple !important;
+      width: auto;
+      height: calc(100% - 4rem);
+    }
+  }
+}
+
+.center-cnt {
+  display: flex;
+  flex-grow: 1;
+  container-name: hero-banner;
+  container-type: inline-size;
+  border: 5px solid blue;
+}
+
+/* @media (orientation: landscape) and (aspect-ratio < 2) {
+  .new-grid {
+    border: 4px solid yellow !important;
+    width: calc(100% - 2rem);
+    height: auto;
+  }
+}
+ */
+
+/* .new-grid {
+
+    border: 5px solid red;
+    background-color: red !important;
+  } */

@@ -1,8 +1,9 @@
-"use client";
+// "use client";
 import { Momo_Trust_Display, Open_Sans } from "next/font/google";
 import "./globals.css";
-import { ApolloProvider } from "@apollo/client";
-import { client } from "./graphql";
+// import { ApolloProvider } from "@apollo/client";
+// import { client } from "./graphql";
+import type { Viewport } from 'next'
 
 const momoTrust = Momo_Trust_Display({
   variable: "--font-momo-trust",
@@ -15,6 +16,14 @@ const openSans = Open_Sans({
   subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+ viewportFit: "cover"
+}
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -25,7 +34,10 @@ export default function RootLayout({
       lang="en"
       className={`${momoTrust.variable} ${openSans.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
-        <ApolloProvider client={client}>{children}</ApolloProvider>
+
+           {children}
+ 
+
       </body>
     </html>
   );

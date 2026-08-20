@@ -18,6 +18,8 @@ import { useFlipTransition } from "@/src/hooks/useFlipTransition";
 import ContainerPage from "@/src/components/CardFlip/ContainerPage";
 import "./GamePage.css";
 import {
+
+  CreateGameMutationResult,
   useCreateGameMutation,
   useCreateMoveMutation,
 } from "@/src/__generated__/types";
@@ -50,7 +52,7 @@ function GamePageContent() {
   const [addMove] = useCreateMoveMutation();
   const [createGame] = useCreateGameMutation({
     variables: { data: { key: params?.get("seed") } },
-    onCompleted: (data) =>
+    onCompleted: (data:CreateGameMutationResult['data']) =>
       data?.createGame?.id && setGameId(data.createGame.id),
   });
 
@@ -63,7 +65,11 @@ function GamePageContent() {
   }, []);
 
   useEffect(() => {
-    !gameId && createGame();
+    !gameId && createGame({
+    variables: { data: { key: params?.get("seed") } },
+    onCompleted: (data:CreateGameMutationResult['data']) =>
+      data?.createGame?.id && setGameId(data.createGame.id),
+  });
   }, [gameId]);
 
   useEffect(() => {
