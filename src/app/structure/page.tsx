@@ -1,5 +1,5 @@
 "use client";
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import "./StructurePage.css";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { GameActions } from "./GameActions/GameActions";
@@ -20,6 +20,15 @@ export default function StructurePage() {
 export const StructurePageContent = () => {
   const { width, height } = useWindowSize();
   const { portrait, desktop, mobileLandscape } = getLayoutType(width, height);
+  const [layoutType, setLayoutType] = useState<any>();
+  useEffect(() => {
+    const diff =
+      layoutType?.portrait !== portrait ||
+      layoutType?.desktop !== desktop ||
+      layoutType?.mobileLandscape !== mobileLandscape;
+    if (!layoutType || diff)
+      setLayoutType({ portrait, desktop, mobileLandscape });
+  }, [portrait, desktop, mobileLandscape]);
 
   return (
     <div className="page-cnt">
@@ -30,6 +39,7 @@ export const StructurePageContent = () => {
             {sampleCardIds?.slice(0, 12).map((id: string, i: number) => {
               return (
                 <Card
+                  key={`sample-card-${id}-${i}`}
                   handleClick={() => console.log(id)}
                   status={CardStatuses.Active}
                   id={id}
@@ -38,12 +48,18 @@ export const StructurePageContent = () => {
             })}
           </Grid>
         </div>
-        <div className="sidebar-cnt">
-          {mobileLandscape ? <GameActions /> : "sidebar"}
-        </div>
+        {layoutType?.mobileLandscape && (
+          <div className="sidebar-cnt">
+            <GameActions />
+          </div>
+        )}
       </div>
       <div className="bottom-cnt">
-        {portrait || desktop ? <GameActions /> : "bottom bar"}
+        {layoutType?.portrait || layoutType?.desktop ? (
+          <GameActions />
+        ) : (
+          "bottom bar"
+        )}
       </div>
     </div>
   );

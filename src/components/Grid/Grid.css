@@ -16,6 +16,9 @@
     max-width: 500px;
     height: auto;
   }
+  padding: 0.28rem;
+  /* padding: max(0.3rem, env(safe-area-inset-bottom, 0.3rem)); */
+
   /* @media (aspect-ratio > 1 / 1.5) and (aspect-ratio < 2 / 1.5) {
     width: auto;
     aspect-ratio: 1 / 0.89;
@@ -37,6 +40,7 @@
     grid-template-rows: repeat(3, 1fr);
     grid-template-columns: repeat(4, 1fr);
     max-height: min(80vh, 500px);
+    margin-bottom: 0.6rem;
   }
 }
 .Grid {
@@ -74,13 +78,13 @@
   }
 
   /* desktop */
-  @media (min-width: 601px) and (orientation: landscape) {
+  /* @media (min-width: 601px) and (orientation: landscape) {
     aspect-ratio: 2 / 1;
     width: 100%;
     height: auto;
     margin: auto auto;
     max-width: min(1000px, calc(100vw - 4rem));
-  }
+  } */
 }
 
 .Grid.expanded {
