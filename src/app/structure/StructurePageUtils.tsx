@@ -1,7 +1,12 @@
+export enum Layouts {
+  Portrait = "PORTRAIT",
+  Desktop = "DESKTOP",
+  MobileLandscape = "MOBILE_LANDSCAPE",
+}
+
 export const getLayoutType = (width: number | null, height: number | null) => {
-  const hasWindowSize = height && width;
-  const portrait = hasWindowSize && width < height;
-  const desktop = hasWindowSize && !portrait && height >= 500;
-  const mobileLandscape = hasWindowSize && !portrait && !desktop;
-  return { portrait, desktop, mobileLandscape };
+  if (!height || !width) return null;
+  if (width < height) return Layouts.Portrait;
+  if (height <= 500) return Layouts.MobileLandscape;
+  return Layouts.Desktop;
 };

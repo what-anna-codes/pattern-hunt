@@ -1,21 +1,13 @@
 @import "tailwindcss";
 
 .CardFrame__wrapper {
-  aspect-ratio: 3 / 2;
-  padding: 2%;
-  width: auto;
-  /* max-width: min(100%, 30vw, 250px); */
   display: flex;
   flex-grow: 1;
-
   height: auto;
   @media (min-width: 900px) {
-    max-width: min(100%, 300px);
+    width: 100%;
   }
-
-  min-width: 80px;
   cursor: pointer;
-  background-color: transparent;
 
   &.disabled {
     filter: grayscale(100%);
@@ -35,7 +27,7 @@
   min-height: 100%;
   opacity: 0.8;
   min-width: 100%;
-  /* padding: 10px; */
+  padding: 10px;
   text-align: center;
   line-height: 1.15;
   transition: all 0.3s ease;
