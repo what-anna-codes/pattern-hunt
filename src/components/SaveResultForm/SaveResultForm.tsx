@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { MutationResult, useMutation } from "@apollo/client";
 import TimeResult from "../TimeResult/TimeResult";
 import {
   CreateResultDocument,
   CreateResultMutation,
   GetTopPageResultsDocument,
+  useCreateResultMutation,
 } from "@/src/__generated__/types";
 import { useRouter, useSearchParams } from "next/navigation";
 import SimpleButton from "../SimpleButton/SimpleButton";
@@ -41,7 +41,7 @@ function SaveResultForm({
     duration && console.log("duration");
   }, [duration, hintCount]);
 
-  const [createRecord] = useMutation(CreateResultDocument);
+  const [createRecord] = useCreateResultMutation();
 
   const submit = (values: SaveResultFormValues) => {
     const { username } = values;
@@ -56,9 +56,7 @@ function SaveResultForm({
             hintCount,
           },
         },
-        onCompleted: async (
-          data: MutationResult<CreateResultMutation>["data"],
-        ) => {
+        onCompleted: async (data) => {
           if (data?.createResult) {
             router.push(`/results?id=${data.createResult.id}&t=${timestamp}`);
           }
@@ -82,9 +80,9 @@ function SaveResultForm({
               <div className="mt-2" style={{ fontWeight: 400 }}>
                 your result:
               </div>
-              <span className="flex" style={{fontWeight: 300}}>
-                  &nbsp;(+&nbsp;{hintCount * PENALTY}&nbsp;penalty&nbsp;seconds)
-                </span>
+              <span className="flex" style={{ fontWeight: 300 }}>
+                &nbsp;(+&nbsp;{hintCount * PENALTY}&nbsp;penalty&nbsp;seconds)
+              </span>
               <div
                 className="flex my-4 mb-8 py-6 text-shadow-md text-[80px] font-bold tracking-wider"
                 style={{ fontWeight: 700 }}>
