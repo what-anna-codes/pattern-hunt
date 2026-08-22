@@ -23,7 +23,7 @@ export default function HomePage() {
               color={Colors.Red}
               isFlipped={isNavigating}
               startedFlipped={startedFlipped}
-              onNavigate={() => handleHomeNavigate("/structure")}
+              onNavigate={() => handleHomeNavigate("/game")}
             />
           </CardFlip>
 

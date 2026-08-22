@@ -15,7 +15,7 @@ export const ResultCardLine = ({
   classNames?: string;
 }) => (
   <motion.div
-    className={`flex justify-center  md:my-4 lg:my-6 my-2 ${classNames ?? ""}`}
+    className={`flex justify-center ${classNames ?? ""}`}
     initial={{ opacity: 0.1 }}
     animate={{ opacity: 1 }}
     transition={{ delay: 0.2 }}>
@@ -53,52 +53,50 @@ export default function ResultCard({
     "#cbbbd2",
   ];
   return (
-    <div className={`position-relative ${resultType}`}>
-      <CardFrame
-        animateInit={resultType?.toString() === "mock" ? true : false}
-        color={Colors.Purple}
-        status={CardStatuses.Coloured}
+    // <div className={`w-full h-full position-relative ${resultType}`}>
+    <CardFrame
+      animateInit={resultType?.toString() === "mock" ? true : false}
+      color={Colors.Purple}
+      status={CardStatuses.Coloured}
+      style={{
+        color: isActive ? "white" : "rgba(255, 255, 255, 0.7)",
+        opacity: isActive ? 1 : (39 - index) * 0.08,
+        filter: "brightness(100%) contrast(120%)",
+        background: shades[index],
+      }}>
+      <motion.div
+        className={`${isActive ? "result result-latest" : "result"} ${classNames ?? ""}`}
+        initial={{ opacity: 0.6 }}
+        animate={{ opacity: 1 }}
         style={{
-          color: isActive ? "white" : "rgba(255, 255, 255, 0.7)",
-          opacity: isActive ? 1 : (39 - index) * 0.08,
-          filter: "brightness(100%) contrast(120%)",
-          background: shades[index],
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
         }}
-        classNames={`${isActive ? "result result-latest" : "result"} ${classNames ?? ""} animate-wiggle wiggle`}>
-        <motion.div
-          initial={{ opacity: 0.6 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 500 }}>
-          {resultType === "mock" ? (
-            " "
-          ) : (
-            <>
-              <ResultCardLine
-                content={
-                  <>
-                    <span className="wiggle min-w-4 w-fit mr-1">
-                      {isActive && rank ? rank : index + 1}.{" "}
-                    </span>
-                    {username}
-                  </>
-                }
-              />
-              <ResultCardLine
-                classNames="opacity-80 animation-wiggle text-sm lg:text-md tracking-wider font-semibold font-sans"
-                content={`hints: ${hintCount}`}
-              />
-              <ResultCardLine
-                content={
-                  <TimeResult
-                    classNames="cseconds font-accent"
-                    duration={seconds}
-                  />
-                }
-              />
-            </>
-          )}
-        </motion.div>
-      </CardFrame>
-    </div>
+        transition={{ duration: 500 }}>
+        {resultType === "mock" ? (
+          " "
+        ) : (
+          <>
+            <ResultCardLine
+              content={
+                <span className="username font-bold">
+                  {isActive && rank ? rank : index + 1} <br /> {username}
+                </span>
+              }
+            />
+            <ResultCardLine
+              content={
+                <TimeResult
+                  classNames="seconds font-accent"
+                  duration={seconds}
+                />
+              }
+            />
+          </>
+        )}
+      </motion.div>
+    </CardFrame>
+    // </div>
   );
 }

@@ -13,16 +13,15 @@ import Timer from "@/src/components/Timer/Timer";
 import HomeIconLink from "@/src/components/HomeIconLink/HomeIconLink";
 import SimpleButton from "@/src/components/SimpleButton/SimpleButton";
 import { CardFlip } from "@/src/components/CardFlip/CardFlip";
-import { containerFadeDelay, containerFadeDuration } from "@/src/utils/motion";
+// import { containerFadeDelay, containerFadeDuration } from "@/src/utils/motion";
 import { useFlipTransition } from "@/src/hooks/useFlipTransition";
-import ContainerPage from "@/src/components/CardFlip/ContainerPage";
 import "./GamePage.css";
 import {
-
   CreateGameMutationResult,
   useCreateGameMutation,
   useCreateMoveMutation,
 } from "@/src/__generated__/types";
+import Page from "@/src/components/Page/Page";
 
 export default function GamePage() {
   return (
@@ -52,7 +51,7 @@ function GamePageContent() {
   const [addMove] = useCreateMoveMutation();
   const [createGame] = useCreateGameMutation({
     variables: { data: { key: params?.get("seed") } },
-    onCompleted: (data:CreateGameMutationResult['data']) =>
+    onCompleted: (data: CreateGameMutationResult["data"]) =>
       data?.createGame?.id && setGameId(data.createGame.id),
   });
 
@@ -65,11 +64,12 @@ function GamePageContent() {
   }, []);
 
   useEffect(() => {
-    !gameId && createGame({
-    variables: { data: { key: params?.get("seed") } },
-    onCompleted: (data:CreateGameMutationResult['data']) =>
-      data?.createGame?.id && setGameId(data.createGame.id),
-  });
+    !gameId &&
+      createGame({
+        variables: { data: { key: params?.get("seed") } },
+        onCompleted: (data: CreateGameMutationResult["data"]) =>
+          data?.createGame?.id && setGameId(data.createGame.id),
+      });
   }, [gameId]);
 
   useEffect(() => {
@@ -168,33 +168,38 @@ function GamePageContent() {
   const isOver = gameStatus === GameStatuses.Over;
 
   return (
-    <ContainerPage classNames="game-page" isNavigating={isNavigating}>
-      <motion.div
-        layout
-        initial={{ opacity: 0.5 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0, duration: 0.4 }}
-        className="top-bar">
-        <span style={{ paddingInline: "1rem" }}>
-          sets in sight: {setsInView.length}
-        </span>
-        <span style={{ paddingInline: "1rem" }}>
-          cards remaining: {deck.length}
-        </span>
-        {!isOver && (
-          <Timer gameStatus={gameStatus} liftDuration={setDuration} />
-        )}
-        <HomeIconLink onNavigate={() => handleNavigate("/")} />
-      </motion.div>
-      <motion.div
-        className="grid-wrapper"
-        initial={{ opacity: 0.6 }}
-        animate={{ opacity: 1 }}
-        transition={{
-          duration: containerFadeDuration,
-          delay: containerFadeDelay,
-        }}>
-        <Grid isExpanded={visibleCards?.length > 12}>
+    <Page
+      classnames="game-page"
+      isNavigating={isNavigating}
+      header={
+        <motion.div
+          layout
+          initial={{ opacity: 0.5 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0, duration: 0.4 }}
+          className="top-bar">
+          <span style={{ paddingInline: "1rem" }}>
+            sets in sight: {setsInView.length}
+          </span>
+          <span style={{ paddingInline: "1rem" }}>
+            cards remaining: {deck.length}
+          </span>
+          {!isOver && (
+            <Timer gameStatus={gameStatus} liftDuration={setDuration} />
+          )}
+          <HomeIconLink onNavigate={() => handleNavigate("/")} />
+        </motion.div>
+      }
+      main={
+        // <motion.div
+        //       className="grid-wrapper"
+        //       initial={{ opacity: 0.6 }}
+        //       animate={{ opacity: 1 }}
+        //       transition={{
+        //         duration: containerFadeDuration,
+        //         delay: containerFadeDelay,
+        //       }}>
+        <>
           {visibleCards?.map((id: string, i: number) => {
             const variants = getVariants(i, size?.width);
             return (
@@ -213,6 +218,7 @@ function GamePageContent() {
                     type: "tween",
                     ease: "circOut",
                   }}
+                  style={{ width: "100%", height: "100%" }}
                   animate={gameStatus}>
                   <Card
                     handleClick={() => handleCardClick(id)}
@@ -237,18 +243,19 @@ function GamePageContent() {
               duration={duration}
             />
           )}
-        </Grid>
-      </motion.div>
-      <div className="bottom-bar">
-        {!isOver && (
+        </>
+        // </motion.div>
+      }
+      actions={
+        isOver ? null : (
           <SimpleButton
             color={Colors.Green}
             classNames="hint-button fixed bottom-3"
             onClick={showHint}
             label="hint"
           />
-        )}
-      </div>
-    </ContainerPage>
+        )
+      }
+    />
   );
 }

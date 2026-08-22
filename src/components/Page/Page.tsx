@@ -11,20 +11,21 @@ interface PageProps {
   header?: ReactNode
   main: ReactNode
   actions?: ReactNode
+  classnames?: string
+  isNavigating?: boolean
 }
-export default function Page({header, main, actions}: PageProps) {
+export default function Page(props: PageProps) {
   return (
     <Suspense fallback={null}>
-      <PageContent header={header} main={main} actions={actions} />
+      <PageContent {...props} />
     </Suspense>
   );
 }
 
-export const PageContent = ({header = null, main, actions = null}: PageProps) => {
+export const PageContent = ({header = null, main, actions = null, classnames, isNavigating = false}: PageProps) => {
   const { width, height } = useWindowSize();
   const calculatedType = getLayoutType(width, height);
   const [layoutType, setLayoutType] = useState<Layouts>();
- const { isNavigating } = useFlipTransition();
 
   useEffect(() => {
     if (calculatedType && (!layoutType || layoutType ! == calculatedType ))
@@ -32,7 +33,7 @@ export const PageContent = ({header = null, main, actions = null}: PageProps) =>
   }, [calculatedType]);
 
   return (
-    <ContainerPage classNames="home-page" isNavigating={isNavigating}>
+    <ContainerPage classNames={classnames = ""} isNavigating={isNavigating}>
    <div className="page-cnt page-bg">
       <div className="top-cnt">{header}</div>
       <div className="center-cnt">

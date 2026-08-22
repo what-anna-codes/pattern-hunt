@@ -18,9 +18,9 @@
 }
 
 .result-card {
-  width: 100%;
+  /* width: 100%;
   height: auto;
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 3 / 2; */
   perspective: 1000px;
   transform-style: preserve-3d;
 }
@@ -37,7 +37,7 @@
   justify-content: space-between;
   font-size: 1.1rem;
   white-space: nowrap;
-  @apply shadow-md grayscale-10 bg-linear-120 from-neutral-700/80 to-neutral-600/80 text-white/80 tracking-widest;
+  @apply text-white/80 tracking-widest;
 
   &:hover {
     @apply shadow-xl backdrop-brightness-50;
@@ -48,7 +48,7 @@
   }
 
   @media (max-width: 800px) {
-    font-size: .9rem;
+    font-size: 0.9rem;
   }
 
   @media (max-width: 450px) {

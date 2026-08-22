@@ -26,7 +26,7 @@ export default function ResultsGrid({
   const mockResults = getMockResults(11);
 
   return (
-    <Grid isExpanded={false}>
+    <>
       <CardFlip isExiting={isNavigating}>
         <CardLink
           onNavigate={() => handleNavigate("/game")}
@@ -48,7 +48,7 @@ export default function ResultsGrid({
           />
         </CardFlip>
       ))}
-    </Grid>
+    </>
   );
 }
 CardFrame;
