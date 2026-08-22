@@ -1,32 +1,21 @@
 "use client";
 
-import Grid from "../components/Grid/Grid";
 import { sampleCardIds } from "../utils/deck";
 import Card from "../components/Card/Card";
 import { Colors, CardStatuses } from "../ts/types";
 import { CardLink } from "../components/CardLink/CardLink";
 import { useFlipTransition } from "@/src/hooks/useFlipTransition";
 import { CardFlip } from "../components/CardFlip/CardFlip";
-import ContainerPage from "../components/CardFlip/ContainerPage";
-import { Suspense } from "react";
+import Page from "../components/Page/Page";
 
-export default function Home() {
-  return (
-    <Suspense fallback={null}>
-      <HomePageContent />
-    </Suspense>
-  );
-}
-
-function HomePageContent() {
+export default function HomePage() {
   const { isNavigating, handleNavigate, startedFlipped } = useFlipTransition();
   const handleHomeNavigate = (href: string) => handleNavigate(href);
 
   return (
-    <ContainerPage classNames="home-page" isNavigating={isNavigating}>
-      <div className="top-bar" />
-      <div className="grid-wrapper">
-        <Grid isExpanded={false}>
+    <Page
+      main={
+        <>
           <CardFlip isExiting={isNavigating}>
             <CardLink
               label="play"
@@ -34,10 +23,9 @@ function HomePageContent() {
               color={Colors.Red}
               isFlipped={isNavigating}
               startedFlipped={startedFlipped}
-              onNavigate={() => handleHomeNavigate("/game")}
+              onNavigate={() => handleHomeNavigate("/structure")}
             />
           </CardFlip>
-
 
           <CardFlip isExiting={isNavigating}>
             <CardLink
@@ -49,16 +37,19 @@ function HomePageContent() {
             />
           </CardFlip>
 
-          {sampleCardIds.slice(0, 10).map((id) => (
+          {sampleCardIds.slice(0, 10).map((id, i) => (
             <CardFlip
-              key={`home-page_card_flip-${id}`}
+              key={`home-sample-card-${id}-${i}`}
               isExiting={isNavigating}>
-              <Card id={id} status={CardStatuses.Disabled} animateInit={true} />
+              <Card
+                handleClick={() => handleNavigate("/")}
+                status={CardStatuses.Disabled}
+                id={id}
+              />
             </CardFlip>
           ))}
-        </Grid>
-      </div>
-      <div className="bottom-bar" />
-    </ContainerPage>
+        </>
+      }
+    />
   );
 }

@@ -34,19 +34,17 @@ export function CardLink({
     <motion.div
       className="Card__flip"
       // variants={cardLinkVariants}
-      style={{transform: "translateZ(124px)"}}
+      style={{transform: "translateZ(124px)", width: '100%', height: "100%"}}
       // initial={"visible"}
       // animate={isFlipped ? "flipped" : "visible"}
       transition={{ duration: 0.4, delay: 0.05, ease: "easeInOut" }}
       onClick={handleClick}>
 
-    <div className="Card__inner text-left w-fit"    onClick={handleClick}>        <div className="Card__face Card__face--front lg:text-3xl">
-          <CardFrame classNames="CardLink" status={CardStatuses.Coloured} color={color} animateInit={false}>
+        <CardFrame  status={CardStatuses.Coloured}   onClick={handleClick}   color={color} animateInit={true}>
             {label}
           </CardFrame>
-        </div>
-      
-      </div>
+
+
       </motion.div>
   );
 }
