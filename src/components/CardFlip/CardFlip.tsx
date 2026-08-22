@@ -23,9 +23,10 @@ export const CardFlip = ({
           perspective: 1200,
           transformOrigin: "50% 50%",
           willChange: "transform, opacity",
-          ...{...style}
+          ...{ ...style },
         }}>
         <motion.div
+          style={{ width: "100%", height: "100%" }}
           initial={"initial"}
           animate={isExiting ? "isExiting" : "isEntering"}
           variants={cardFlipVariants}
@@ -37,7 +38,11 @@ export const CardFlip = ({
             mass: 1.15,
             delay: 0.02,
           }}>
-          <div className={`Card__inner ${classNames}`}>{children}</div>
+          <div
+            className={`Card__inner ${classNames}`}
+            style={{ width: "100%", height: "100%" }}>
+            {children}
+          </div>
         </motion.div>
       </motion.div>
     </AnimatePresence>

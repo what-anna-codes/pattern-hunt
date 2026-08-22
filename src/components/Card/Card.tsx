@@ -14,21 +14,35 @@ function Card({
 }: ICard) {
   const { count, color, fill } = getFeatures(id);
   if (!id) return null;
-  if (animateInit) return (
-     <motion.div id={id} style={style} layout className={`Card ${status === CardStatuses.Disabled ? "disabled": ""}`} onClick={handleClick}>
-     <CardFrame style={style} classNames={`${classNames} ${color} ${fill}`} status={status} animateInit={animateInit}>
-        {Array.from({ length: count }).map((_, i) => (
-          <CardSymbol key={`symbol-${id}-${i}`} id={id} />
-        ))}
-      </CardFrame>
-     </motion.div>
-  )
+  if (animateInit)
+    return (
+      <motion.div
+        id={id}
+        style={{ ...style, width: "100%", height: "100%" }}
+        layout
+        className={`Card ${status === CardStatuses.Disabled ? "disabled" : ""}`}
+        onClick={handleClick}>
+        <CardFrame
+          style={style}
+          classNames={`${classNames} ${color} ${fill}`}
+          status={status}
+          animateInit={animateInit}>
+          {Array.from({ length: count }).map((_, i) => (
+            <CardSymbol key={`symbol-${id}-${i}`} id={id} />
+          ))}
+        </CardFrame>
+      </motion.div>
+    );
   return (
-      <CardFrame style={style} classNames={`${classNames} ${color} ${fill}`} status={status} animateInit={animateInit}>
-        {Array.from({ length: count }).map((_, i) => (
-          <CardSymbol key={`symbol-${id}-${i}`} id={id} />
-        ))}
-      </CardFrame>
+    <CardFrame
+      style={style}
+      classNames={`${classNames} ${color} ${fill}`}
+      status={status}
+      animateInit={animateInit}>
+      {Array.from({ length: count }).map((_, i) => (
+        <CardSymbol key={`symbol-${id}-${i}`} id={id} />
+      ))}
+    </CardFrame>
   );
 }
 
