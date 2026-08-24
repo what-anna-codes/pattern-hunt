@@ -15,7 +15,8 @@
   flex-direction: column;
   font-size: 1.3rem;
   color: hsla(240, 4%, 16%, 80%);
-  & > * {
+
+  &>* {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -75,6 +76,7 @@
   @media (orientation: landscape) and (min-height: 501px) {
     & .center-cnt {
       max-height: 80svh;
+
       & .cards-cnt {
         aspect-ratio: 2 / 1;
       }
@@ -82,17 +84,21 @@
   }
 
   @media (orientation: landscape) and (max-height: 500px) {
+
     & .top-cnt,
     & .bottom-cnt {
       display: none;
     }
+
     & .center-cnt {
       height: 100%;
+
       & .cards-cnt {
         height: 100%;
         max-width: 100%;
       }
     }
+
     & .sidebar-cnt {
       display: flex;
       width: var(--sidebar-w);
@@ -120,9 +126,9 @@
   grid-auto-flow: dense;
   overflow: hidden;
   box-sizing: border-box;
-    margin-inline: auto;
+  margin-inline: auto;
 
-  & > * {
+  &>* {
     min-width: 0;
     min-height: 0;
     width: 100%;
@@ -140,8 +146,17 @@
 
     @media (orientation: portrait) {
       gap: 0.8rem;
-      
+
     }
+  }
+}
+
+.new-grid.expanded {
+  --grid-ratio: 9 / 10;
+
+  @media (orientation: landscape) {
+    --grid-ratio: 15 / 6;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }
 
@@ -165,9 +180,13 @@
     height: calc(100cqh - 2rem);
     max-width: 100%;
   }
+
+  .new-grid.expanded {
+    --grid-ratio: 9 / 10;
+  }
 }
 
-@container center-area (orientation: portrait) and (aspect-ratio <= 9 / 8) {
+@container center-area (orientation: portrait) and (aspect-ratio <=9 / 8) {
   .new-grid {
     --grid-ratio: 9 / 8;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -175,15 +194,22 @@
     height: auto;
     max-height: 100%;
   }
+
+  .new-grid.expanded {
+    --grid-ratio: 9 / 10;
+  }
 }
 
-@container center-area (orientation: landscape) and (aspect-ratio >= 2) {
+@container center-area (orientation: landscape) and (aspect-ratio >=2) {
+
   .cards-cnt,
   .new-grid {
     --grid-ratio: 2 / 1;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     width: auto;
     height: calc(100cqh - 6rem);
     gap: 0.6rem;
+
     @media (max-height: 400px) {
       height: calc(100cqh - 3rem);
     }
@@ -193,14 +219,24 @@
       height: calc(100cqh - 9rem);
     }
   }
+
+  .new-grid.expanded {
+    --grid-ratio: 15 / 6;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
 }
 
-@container center-area (orientation: landscape) and (aspect-ratio <= 2) {
+@container center-area (orientation: landscape) and (aspect-ratio <=2) {
   .new-grid {
     --grid-ratio: 2 / 1;
     width: calc(100cqw - 8rem);
     grid-template-columns: repeat(4, minmax(0, 1fr));
     height: auto;
     max-width: 100%;
+  }
+
+  .new-grid.expanded {
+    --grid-ratio: 15 / 6;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }

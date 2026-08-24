@@ -171,6 +171,7 @@ function GamePageContent() {
     <Page
       classnames="game-page"
       isNavigating={isNavigating}
+      isGridExpanded={boardSize > 12}
       header={
         <motion.div
           layout
