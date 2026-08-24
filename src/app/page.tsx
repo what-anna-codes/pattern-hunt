@@ -7,8 +7,18 @@ import { CardLink } from "../components/CardLink/CardLink";
 import { useFlipTransition } from "@/src/hooks/useFlipTransition";
 import { CardFlip } from "../components/CardFlip/CardFlip";
 import Page from "../components/Page/Page";
+import { Suspense } from "react";
+
 
 export default function HomePage() {
+  return (
+    <Suspense fallback={null}>
+      <HomePageContent />
+    </Suspense>
+  );
+}
+
+export const HomePageContent = () => {
   const { isNavigating, handleNavigate, startedFlipped } = useFlipTransition();
   const handleHomeNavigate = (href: string) => handleNavigate(href);
 

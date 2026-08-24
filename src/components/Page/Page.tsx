@@ -15,15 +15,7 @@ interface PageProps {
   isGridExpanded?: boolean
 }
 
-export default function Page(props: PageProps) {
-  return (
-    <Suspense fallback={null}>
-      <PageContent {...props} />
-    </Suspense>
-  );
-}
-
-export const PageContent = ({ header = null, main, actions = null, classnames, isNavigating = false, isGridExpanded = false }: PageProps) => {
+export default function Page ({ header = null, main, actions = null, classnames, isNavigating = false, isGridExpanded = false }: PageProps) {
   const { width, height } = useWindowSize();
   const calculatedType = getLayoutType(width, height);
   const [layoutType, setLayoutType] = useState<Layouts>();

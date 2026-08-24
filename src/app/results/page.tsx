@@ -1,7 +1,7 @@
 "use client";
 
 import "./Results.css";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import ResultsGrid from "./ResultsGrid/ResultsGrid";
 import { useSearchParams } from "next/navigation";
 import {
@@ -17,7 +17,16 @@ import { useFlipTransition } from "@/src/hooks/useFlipTransition";
 import { FullResult } from "@/src/ts/types";
 import Page from "@/src/components/Page/Page";
 
+
 export default function ResultsPage() {
+  return (
+    <Suspense fallback={null}>
+      <ResultsPageContent />
+    </Suspense>
+  );
+}
+
+export const ResultsPageContent = () => {
   const params = useSearchParams();
   const activeResultId = params.get("id") ?? "abc";
   const { data, loading } = useGetTopPageResultsQuery();

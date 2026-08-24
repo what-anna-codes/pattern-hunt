@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import { Result } from "../__generated__/graphql";
 
 enum Colors {
     Green = 'green',
@@ -51,7 +50,13 @@ type Features = {
     count: Array<Counts>
 }
 
-type FullResult = Pick<Result, 'id' | 'username' | 'seconds' | 'createdAt'>;
+type FullResult = {
+    id: string;
+    username?: string | null;
+    seconds?: number | null;
+    timestamp?: string | null;
+    hintCount?: number | null;
+}
 
 interface Card {
     id: string;

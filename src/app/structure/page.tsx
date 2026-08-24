@@ -8,8 +8,17 @@ import Page from "@/src/components/Page/Page";
 import { CardFlip } from "@/src/components/CardFlip/CardFlip";
 import { useFlipTransition } from "@/src/hooks/useFlipTransition";
 import "./StructurePage.css";
+import { Suspense } from "react";
 
 export default function StructurePage() {
+  return (
+    <Suspense fallback={null}>
+      <StructurePageContent />
+    </Suspense>
+  );
+}
+
+export const StructurePageContent = () => {
   const { isNavigating, handleNavigate } = useFlipTransition();
 
   const content = sampleCardIds?.slice(0, 12).map((id: string, i: number) => {
