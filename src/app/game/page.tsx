@@ -22,6 +22,7 @@ import {
   useCreateMoveMutation,
 } from "@/src/__generated__/types";
 import Page from "@/src/components/Page/Page";
+import { PENALTY } from "@/src/utils/constants";
 
 export default function GamePage() {
   return (
@@ -166,7 +167,7 @@ function GamePageContent() {
   }, [selectedCardsStatus, deck, visibleCards]);
 
   const isOver = gameStatus === GameStatuses.Over;
-
+   
   return (
     <Page
       classnames="game-page"
@@ -179,15 +180,11 @@ function GamePageContent() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0, duration: 0.4 }}
           className="top-bar">
-          <span style={{ paddingInline: "1rem" }}>
-            sets in sight: {setsInView.length}
-          </span>
-          <span style={{ paddingInline: "1rem" }}>
-            cards remaining: {deck.length}
-          </span>
-          {!isOver && (
-            <Timer gameStatus={gameStatus} liftDuration={setDuration} />
-          )}
+          {/* <small className="flex flex-col grow-0 px-2 items-center justify-center text-md text-center">
+       
+            sets on board: {setsInView.length}
+         
+          </small> */}
           <HomeIconLink onNavigate={() => handleNavigate("/")} />
         </motion.div>
       }
@@ -249,14 +246,46 @@ function GamePageContent() {
       }
       actions={
         isOver ? null : (
-          <SimpleButton
-            color={Colors.Green}
-            classNames="hint-button fixed bottom-3"
-            onClick={showHint}
-            label="hint"
-          />
+          <div className="actions w-full flex p-0 text-md">
+            <HintButton showHint={showHint} />
+            <TimerCnt gameStatus={gameStatus} liftDuration={setDuration} hintCount={hintCount} duration={duration} />
+          </div>
         )
+
+      }
+      sidebar={ isOver ? <SaveResultForm
+              seed={Number(params.get("seed"))}
+              gameId={gameId}
+              hintCount={hintCount}
+              duration={duration}
+            /> : 
+        <>
+          <HomeIconLink onNavigate={() => handleNavigate("/")} />
+          <HintButton showHint={showHint} />
+          <TimerCnt gameStatus={gameStatus} liftDuration={setDuration} hintCount={hintCount} duration={duration} />
+        </>
       }
     />
   );
+}
+export const HintButton = ({ showHint }: { showHint: () => void }) => {
+  return <button
+    className="hint flex flex-col rounded-xl grow hover:backdrop-blur-2xl hover:backdrop-brightness-90"
+    onClick={showHint}>
+    <strong className="font-bold tracking-wider">hint</strong>
+    <small>( + {PENALTY} secs )</small>
+  </button>;
+}
+
+export const TimerCnt = ({ gameStatus, duration, liftDuration, hintCount }: { gameStatus: GameStatuses, duration: number | null, liftDuration: (duration: any) => void, hintCount: number }) => {
+  return (
+    <div className="flex flex-col grow-0 px-6 items-center justify-center font-bold">
+      <Timer gameStatus={gameStatus} duration={duration ?? 0} liftDuration={liftDuration} />
+      {hintCount > 0 && (
+        <small className=" nowrap font-normal">
+          + <strong>{hintCount * PENALTY}</strong> secs
+        </small>
+      )}
+    </div>
+  )
 }

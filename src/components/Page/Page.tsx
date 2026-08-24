@@ -13,9 +13,10 @@ interface PageProps {
   classnames?: string
   isNavigating?: boolean
   isGridExpanded?: boolean
+  sidebar?: ReactNode | null
 }
 
-export default function Page ({ header = null, main, actions = null, classnames, isNavigating = false, isGridExpanded = false }: PageProps) {
+export default function Page({ sidebar = null, header = null, main, actions = null, classnames, isNavigating = false, isGridExpanded = false }: PageProps) {
   const { width, height } = useWindowSize();
   const calculatedType = getLayoutType(width, height);
   const [layoutType, setLayoutType] = useState<Layouts>();
@@ -41,11 +42,9 @@ export default function Page ({ header = null, main, actions = null, classnames,
               {main}
             </div>
           </div>
-          {layoutType === Layouts.MobileLandscape && (
-            <div className="sidebar-cnt">
-              {actions}
-            </div>
-          )}
+          {sidebar && <div className="sidebar-cnt">
+            {sidebar}
+          </div>}
         </div>
         <div className="bottom-cnt">
           {actions}

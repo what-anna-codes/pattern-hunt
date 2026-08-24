@@ -12,11 +12,12 @@ interface Props {
   gameStatus: GameStatuses;
   liftDuration: Dispatch<SetStateAction<number | null>>;
   classNames?: string;
+  duration?: number;
 }
 
-function Timer({ gameStatus, liftDuration, classNames }: Props) {
+function Timer({ gameStatus, liftDuration, classNames, duration }: Props) {
   const { time, start, pause, status } = useTimer({
-    initialTime: 0,
+    initialTime: duration ?? 0,
   });
 
   useEffect(() => {
