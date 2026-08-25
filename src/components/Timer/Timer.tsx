@@ -35,15 +35,14 @@ function Timer({ gameStatus, liftDuration, classNames, duration }: Props) {
   }, [gameStatus]);
 
   return (
-    <button
+    <div
       className={`Timer ${Colors.Purple} ${classNames}`}
-      disabled={status !== "RUNNING" && time !== 0}
       onClick={() => {
         pause();
         liftDuration(null);
       }}>
       <TimeResult duration={time} />
-    </button>
+    </div>
   );
 }
 

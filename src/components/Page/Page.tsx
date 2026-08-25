@@ -1,10 +1,9 @@
 "use client";
-import { ReactNode, Suspense, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { getLayoutType, Layouts } from "./PageUtils";
-
-import "./Page.css";
 import ContainerPage from "../CardFlip/ContainerPage";
+import "./Page.css";
 
 interface PageProps {
   header?: ReactNode
@@ -35,7 +34,7 @@ export default function Page({ sidebar = null, header = null, main, actions = nu
   return (
     <ContainerPage classNames={classnames = ""} isNavigating={isNavigating}>
       <div className="page-cnt page-bg">
-        <div className="top-cnt">{header}</div>
+        <div className="top-cnt p-2 flex justify-start">{header}</div>
         <div className="center-cnt">
           <div className="cards-cnt">
             <div className={`new-grid ${isExpanded ? "expanded" : ""}`}>

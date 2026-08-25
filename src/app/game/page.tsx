@@ -1,28 +1,27 @@
 "use client";
-import { GameStatuses, CardStatuses, Colors } from "@/src/ts/types";
+import { GameStatuses, CardStatuses } from "@/src/ts/types";
 import { generateDeck, check, findAll } from "@/src/utils/deck";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { Suspense, useState, useEffect } from "react";
 import { getVariants } from "@/src/app/game/GameUtils";
 import Card from "@/src/components/Card/Card";
-import Grid from "@/src/components/Grid/Grid";
 import { motion } from "motion/react";
 import { useSearchParams } from "next/navigation";
 import SaveResultForm from "@/src/components/SaveResultForm/SaveResultForm";
 import Timer from "@/src/components/Timer/Timer";
 import HomeIconLink from "@/src/components/HomeIconLink/HomeIconLink";
-import SimpleButton from "@/src/components/SimpleButton/SimpleButton";
 import { CardFlip } from "@/src/components/CardFlip/CardFlip";
 // import { containerFadeDelay, containerFadeDuration } from "@/src/utils/motion";
 import { useFlipTransition } from "@/src/hooks/useFlipTransition";
-import "./GamePage.css";
+import Page from "@/src/components/Page/Page";
 import {
   CreateGameMutationResult,
   useCreateGameMutation,
   useCreateMoveMutation,
 } from "@/src/__generated__/types";
-import Page from "@/src/components/Page/Page";
 import { PENALTY } from "@/src/utils/constants";
+import { ActionsItem } from "@/src/components/ActionsItem/ActionsItem";
+import "./GamePage.css";
 
 export default function GamePage() {
   return (
@@ -167,36 +166,14 @@ function GamePageContent() {
   }, [selectedCardsStatus, deck, visibleCards]);
 
   const isOver = gameStatus === GameStatuses.Over;
-   
+
   return (
     <Page
       classnames="game-page"
       isNavigating={isNavigating}
       isGridExpanded={boardSize > 12}
-      header={
-        <motion.div
-          layout
-          initial={{ opacity: 0.5 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0, duration: 0.4 }}
-          className="top-bar">
-          {/* <small className="flex flex-col grow-0 px-2 items-center justify-center text-md text-center">
-       
-            sets on board: {setsInView.length}
-         
-          </small> */}
-          <HomeIconLink onNavigate={() => handleNavigate("/")} />
-        </motion.div>
-      }
+      header={<HomeIconLink onNavigate={() => handleNavigate("/")} />}
       main={
-        // <motion.div
-        //       className="grid-wrapper"
-        //       initial={{ opacity: 0.6 }}
-        //       animate={{ opacity: 1 }}
-        //       transition={{
-        //         duration: containerFadeDuration,
-        //         delay: containerFadeDelay,
-        //       }}>
         <>
           {visibleCards?.map((id: string, i: number) => {
             const variants = getVariants(i, size?.width);
@@ -242,23 +219,17 @@ function GamePageContent() {
             />
           )}
         </>
-        // </motion.div>
       }
       actions={
         isOver ? null : (
-          <div className="actions w-full flex p-0 text-md">
+          <div className="actions w-full flex text-md">
             <HintButton showHint={showHint} />
             <TimerCnt gameStatus={gameStatus} liftDuration={setDuration} hintCount={hintCount} duration={duration} />
           </div>
         )
 
       }
-      sidebar={ isOver ? <SaveResultForm
-              seed={Number(params.get("seed"))}
-              gameId={gameId}
-              hintCount={hintCount}
-              duration={duration}
-            /> : 
+      sidebar={!isOver &&
         <>
           <HomeIconLink onNavigate={() => handleNavigate("/")} />
           <HintButton showHint={showHint} />
@@ -269,23 +240,21 @@ function GamePageContent() {
   );
 }
 export const HintButton = ({ showHint }: { showHint: () => void }) => {
-  return <button
-    className="hint flex flex-col rounded-xl grow hover:backdrop-blur-2xl hover:backdrop-brightness-90"
-    onClick={showHint}>
+  return <ActionsItem onClick={showHint} classNames="hint grow">
     <strong className="font-bold tracking-wider">hint</strong>
     <small>( + {PENALTY} secs )</small>
-  </button>;
+  </ActionsItem>;
 }
 
 export const TimerCnt = ({ gameStatus, duration, liftDuration, hintCount }: { gameStatus: GameStatuses, duration: number | null, liftDuration: (duration: any) => void, hintCount: number }) => {
   return (
-    <div className="flex flex-col grow-0 px-6 items-center justify-center font-bold">
+    <ActionsItem classNames="flex flex-col grow-0 px-4 w-30 items-center justify-center font-bold">
       <Timer gameStatus={gameStatus} duration={duration ?? 0} liftDuration={liftDuration} />
       {hintCount > 0 && (
         <small className=" nowrap font-normal">
           + <strong>{hintCount * PENALTY}</strong> secs
         </small>
       )}
-    </div>
+    </ActionsItem>
   )
 }

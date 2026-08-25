@@ -108,23 +108,21 @@
         width: var(--sidebar-w);
         max-width: var(--sidebar-max-w);
         flex-shrink: 0;
-        padding-block: 1rem;
+        padding: .7rem;
+        gap: 1rem;
 
-        & > * {
+        & .ActionsItem {
+          min-height: 4.5rem;
+          height: 4.5rem;
+          width: 100%;
           display: flex;
-          height: fit-content;
-          flex-direction: column;
           align-items: center;
           justify-content: center;
         }
 
-        & .actions {
-          height: 100%;
-          flex-direction: column;
-        }
-
         & .hint {
           flex-grow: 1;
+          max-height: 100%;
           height: 100%;
           background-color: hsla(240, 48%, 35%, 0);
           display: flex;
