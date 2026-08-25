@@ -9,7 +9,6 @@ import { CardFlip } from "../components/CardFlip/CardFlip";
 import Page from "../components/Page/Page";
 import { Suspense } from "react";
 
-
 export default function HomePage() {
   return (
     <Suspense fallback={null}>
@@ -37,15 +36,7 @@ export const HomePageContent = () => {
             />
           </CardFlip>
 
-          <CardFlip isExiting={isNavigating}>
-            <CardLink
-              label="results"
-              color={Colors.Purple}
-              key="home__results"
-              startedFlipped={startedFlipped}
-              onNavigate={() => handleHomeNavigate("/results")}
-            />
-          </CardFlip>
+
 
           {sampleCardIds.slice(0, 10).map((id, i) => (
             <CardFlip
@@ -58,6 +49,15 @@ export const HomePageContent = () => {
               />
             </CardFlip>
           ))}
+          <CardFlip isExiting={isNavigating}>
+            <CardLink
+              label="results"
+              color={Colors.Purple}
+              key="home__results"
+              startedFlipped={startedFlipped}
+              onNavigate={() => handleHomeNavigate("/results")}
+            />
+          </CardFlip>
         </>
       }
     />
