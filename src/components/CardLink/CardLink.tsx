@@ -16,7 +16,7 @@ interface Props {
 
 const cardLinkVariants = {
   visible: { rotateY: 90, opacity: 1, translateZ: 0, scale: 1 },
-  flipped: { rotateY: 0, opacity: 0.4, translateZ: 24, scale: 0.97 },
+  flipped: { rotateY: 0, opacity: 0.7, translateZ: 24, scale: 0.97 },
 };
 
 export function CardLink({
@@ -40,7 +40,7 @@ export function CardLink({
       transition={{ duration: 0.4, delay: 0.05, ease: "easeInOut" }}
       onClick={handleClick}>
 
-        <CardFrame  status={CardStatuses.Coloured}   onClick={handleClick}   color={color} animateInit={true}>
+        <CardFrame classNames="CardLink font-bold text-xl md:text-2xl lg:text-3xl tracking-wide" status={CardStatuses.Coloured}   onClick={handleClick}   color={color} animateInit={true}>
             {label}
           </CardFrame>
 
