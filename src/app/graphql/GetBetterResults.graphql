@@ -1,0 +1,15 @@
+query GetBetterResults ($newResultSeconds:Int!){
+  resultsConnection (where: {seconds_lte: $newResultSeconds}, orderBy:seconds_ASC) {
+    aggregate {
+      betterResultsCount:count
+    }
+    edges { 
+      node {
+        username
+        seconds
+        hintCount
+        id
+      }
+    }
+  }
+}

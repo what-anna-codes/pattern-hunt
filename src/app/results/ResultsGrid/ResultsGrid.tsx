@@ -2,12 +2,12 @@
 
 import { CardLink } from "@/src/components/CardLink/CardLink";
 import CardFrame from "@/src/components/CardFrame/CardFrame";
-import Grid from "@/src/components/Grid/Grid";
 import { Colors, FullResult } from "@/src/ts/types";
 import ResultCard from "./ResultCard/ResultCard";
-import "../Results.css";
 import { CardFlip } from "@/src/components/CardFlip/CardFlip";
 import { getMockResults } from "./ResultsGridUtils";
+import { useEffect, useState } from "react";
+import "../Results.css";
 
 export default function ResultsGrid({
   results,
@@ -23,14 +23,20 @@ export default function ResultsGrid({
   rank?: number;
   isLoading?: boolean;
 }) {
-  const mockResults = getMockResults(11);
+  const showHome = !activeId || (rank && rank <= 10)
+  const mockResults = getMockResults(!activeId || showHome ? 10 : 11);
+  const [resultsState, setResultsState] = useState<FullResult[] | null>(results);
+
+  useEffect(() => {
+    setResultsState(results);
+  }, [results]);
 
   return (
     <>
       <CardFlip isExiting={isNavigating}>
         <CardLink
           onNavigate={() => handleNavigate("/game")}
-          label="play again"
+          label={activeId ? "play again" : "play"}
           color={Colors.Red}
         />
       </CardFlip>
@@ -39,15 +45,22 @@ export default function ResultsGrid({
           key={`results-page__grid__card-flip-${result.id}`}
           isExiting={isNavigating}>
           <ResultCard
-            result={results?.[index] ?? result}
+            result={resultsState?.[index] ?? result}
             index={index}
             rank={rank}
-            classNames={results ? "" : ""}
-            resultType={!results ? "mock" : "real"}
+            classNames={resultsState ? "" : ""}
+            resultType={!resultsState ? "mock" : "real"}
             isActive={activeId === results?.[index]?.id}
           />
         </CardFlip>
       ))}
+      {showHome && <CardFlip isExiting={isNavigating}>
+        <CardLink
+          onNavigate={() => handleNavigate("/")}
+          label="home"
+          color={Colors.Green}
+        />
+      </CardFlip>}
     </>
   );
 }

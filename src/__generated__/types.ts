@@ -108,6 +108,13 @@ export type CreateResultMutationVariables = Exact<{
 
 export type CreateResultMutation = { createResult: { __typename: 'Result', id: string, hintCount: number | null, seconds: number | null, username: string | null, game: { __typename: 'Game', key: string | null } | null } | null };
 
+export type GetBetterResultsQueryVariables = Exact<{
+  newResultSeconds: number;
+}>;
+
+
+export type GetBetterResultsQuery = { resultsConnection: { __typename: 'ResultConnection', aggregate: { __typename: 'Aggregate', betterResultsCount: number }, edges: Array<{ __typename: 'ResultEdge', node: { __typename: 'Result', username: string | null, seconds: number | null, hintCount: number | null, id: string } }> } };
+
 export type GetResultQueryVariables = Exact<{
   id: string | number;
 }>;
@@ -231,6 +238,59 @@ export function useCreateResultMutation(baseOptions?: Apollo.MutationHookOptions
 export type CreateResultMutationHookResult = ReturnType<typeof useCreateResultMutation>;
 export type CreateResultMutationResult = Apollo.MutationResult<CreateResultMutation>;
 export type CreateResultMutationOptions = Apollo.BaseMutationOptions<CreateResultMutation, CreateResultMutationVariables>;
+export const GetBetterResultsDocument = gql`
+    query GetBetterResults($newResultSeconds: Int!) {
+  resultsConnection(where: {seconds_lte: $newResultSeconds}, orderBy: seconds_ASC) {
+    aggregate {
+      betterResultsCount: count
+    }
+    edges {
+      node {
+        username
+        seconds
+        hintCount
+        id
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetBetterResultsQuery__
+ *
+ * To run a query within a React component, call `useGetBetterResultsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetBetterResultsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetBetterResultsQuery({
+ *   variables: {
+ *      newResultSeconds: // value for 'newResultSeconds'
+ *   },
+ * });
+ */
+export function useGetBetterResultsQuery(baseOptions: Apollo.QueryHookOptions<GetBetterResultsQuery, GetBetterResultsQueryVariables> & ({ variables: GetBetterResultsQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetBetterResultsQuery, GetBetterResultsQueryVariables>(GetBetterResultsDocument, options);
+      }
+export function useGetBetterResultsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetBetterResultsQuery, GetBetterResultsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetBetterResultsQuery, GetBetterResultsQueryVariables>(GetBetterResultsDocument, options);
+        }
+// @ts-ignore
+export function useGetBetterResultsSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetBetterResultsQuery, GetBetterResultsQueryVariables>): Apollo.UseSuspenseQueryResult<GetBetterResultsQuery, GetBetterResultsQueryVariables>;
+export function useGetBetterResultsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetBetterResultsQuery, GetBetterResultsQueryVariables>): Apollo.UseSuspenseQueryResult<GetBetterResultsQuery | undefined, GetBetterResultsQueryVariables>;
+export function useGetBetterResultsSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetBetterResultsQuery, GetBetterResultsQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetBetterResultsQuery, GetBetterResultsQueryVariables>(GetBetterResultsDocument, options);
+        }
+export type GetBetterResultsQueryHookResult = ReturnType<typeof useGetBetterResultsQuery>;
+export type GetBetterResultsLazyQueryHookResult = ReturnType<typeof useGetBetterResultsLazyQuery>;
+export type GetBetterResultsSuspenseQueryHookResult = ReturnType<typeof useGetBetterResultsSuspenseQuery>;
+export type GetBetterResultsQueryResult = Apollo.QueryResult<GetBetterResultsQuery, GetBetterResultsQueryVariables>;
 export const GetResultDocument = gql`
     query GetResult($id: ID!) {
   result(where: {id: $id}) {
